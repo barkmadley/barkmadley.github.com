@@ -3,17 +3,17 @@
 
 
 /* TEAM */
-  <your title>: <your name>
-  Site: 
-  Twitter: 
-  Location: 
+  Mr: Mark Bradley
+  Site: barkmadley.com
+  Twitter: @barrkmadley
+  Location: Sydney, Australia
 
 /* THANKS */
-  Names (& URL): 
+  Names (& URL): github for hosting (http://github.com)
 
 /* SITE */
   Standards: HTML5, CSS3
-  Components: Modernizr, jQuery
+  Components: Modernizr, jQuery, knockoutjs
   Software:
   
 
