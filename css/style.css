@@ -175,12 +175,12 @@ html {
 
 body {
   margin: 0 auto;
-  margin-top: 5px;
+  margin-top: 10px;
   background: white;
 }
 
-header {
-  margin-bottom: 1.5em;
+header, p {
+  margin-bottom: 18px;
 }
 
 /* Typography presets
@@ -232,7 +232,9 @@ px      68    160    252    344    436    528    620    712    804    896    */
 
 body {
   width: 896px;
-  padding: 48px 48px 84px;
+  padding: 48px;
+  /*original*/
+  /*padding: 72px 48px 84px;*/
   color: rgb(60,60,60);
   -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
 }
@@ -251,7 +253,8 @@ px      68    160    252    344    436    528    620    712    */
 
   body {
     width: 712px;
-    padding: 48px 28px 60px;
+    padding: 28px;
+    /*padding: 48px 28px 60px;*/
   }
 
 }
@@ -270,7 +273,8 @@ px      68    160    252    */
 
   body {
     width: 252px;
-    padding: 48px 34px 60px;
+    padding: 24px;
+    /*padding: 48px 24px 60px;*/
   }
 
 }
@@ -289,7 +293,8 @@ px      68    160    252    344    436    */
 
   body {
     width: 436px;
-    padding: 36px 22px 48px;
+    padding: 22px;
+    /*padding: 36px 22px 48px;*/
   }
 
 }
