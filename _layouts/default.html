@@ -37,14 +37,8 @@
 <body>
 
   <header>
-    {% if page.title %}
-    <h1>{{ page.title }}</h1>
-    {% endif %}
-    {% if page.subtitle %}
-    <h3>{{ page.subtitle }}</h3>
-    {% endif %}
-    <nav>
-    </nav>
+    <h1>barkmadley</h1>
+    <h3>thinker, hacker</h3>
   </header>
 
   {{ content }}
@@ -72,12 +66,14 @@
 
 
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
+  {% if safe %}
   <script>
     var _gaq=[["_setAccount","UA-9071772-3"],["_trackPageview"]];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
     g.src=("https:"==location.protocol?"//ssl":"//www")+".google-analytics.com/ga.js";
     s.parentNode.insertBefore(g,s)}(document,"script"));
   </script>
+  {% endif %}
 
 </body>
 </html>

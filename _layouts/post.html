@@ -4,6 +4,15 @@ layout: default
 
 <article>
 
+  <header>
+    {% if page.title %}
+    <h2>{{ page.title }}</h2>
+    {% endif %}
+    {% if page.subtitle %}
+    <h4>{{ page.subtitle }}</h4>
+    {% endif %}
+  </header>
+
   {{ content }}
 
 </article>
