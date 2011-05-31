@@ -179,8 +179,8 @@ body {
   background: white;
 }
 
-header, p, div.highlight {
-  margin-bottom: 18px;
+header, p, div.highlight, ul, ol {
+  margin-bottom: 1em;
 }
 
 div.highlight pre {
