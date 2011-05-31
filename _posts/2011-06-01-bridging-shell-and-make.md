@@ -30,7 +30,65 @@ checking and the makefile was happy. In addition we have some shell scripts whic
 are affected by the behaviour of the makefile, and so I thought it would be
 pertinent to try to make them both speak the same language.
 
-The set of differences between shell and Makefile syntax and behaviour is quite
-large as it turns out, 
+In order achieve this I needed to figure out the semantics of Makefile
+variables/arguments.
 
+* If a variable is defined in the environment, you need to use make -e to get it into
+a makefile variable
+* If a variable is defined on the commandline, then it will overwrite the definition
+in the makefile.
+* If a variable is not defined in either of the above, and it is in the file,
+use that definition.
+
+So the desired order of evaluation goes:
+
+* in file
+* environment
+* commandline
+
+I start off by processing all the default values for the given variables:
+{% highlight bash %}
+for line in `cat defaults`; do
+  if [[ "$line" == \#* ]]; then
+    continue # skip comments
+  fi
+{% endhighlight %}
+the defaults file is a series of lines which look like VAR=val. These variable
+value pairs are extracted below
+{% highlight bash %}
+  LINE_VAR=`echo $line | sed -e "s/=.*//"`
+  LINE_VAL=`echo $line | sed -e "s/$LINE_VAR=//"`
+{% endhighlight %}
+I need to be able to see if the variable has been set before, so here I use
+an eval to see what is in the current variable, and if it has, use that value
+and export the pair
+{% highlight bash %}
+  eval "LINE_VAR_VAL=\$$LINE_VAR"
+  # previously exported values overwrite defaults
+  if [ "$LINE_VAR_VAL" != "" ]; then
+    LINE_VAL=$LINE_VAR_VAL
+  fi
+  export $LINE_VAR=$LINE_VAL
+done
+{% endhighlight %}
+Finally I go through the arguments array and overwrite any environment variables
+that are specified. The script that uses this one will have to refer to ALL_ARGS
+after they have been processed here.
+{% highlight bash %}
+
+# arguments that are VAR=something overwrite
+NEW_ARGS=""
+for ARG in "$@"
+do
+  if [[ "$ARG" =~ ^[A-Z].*=.* ]]; then
+    eval $ARG
+  else
+    NEW_ARGS="$NEW_ARGS $ARG"
+  fi
+done
+ALL_ARGS="$NEW_ARGS"
+{% endhighlight %}
+
+This simplish hack has allowed me to standardise on a set of variables which control
+the logic of building, while maintaining orthogonality.
 

@@ -2,3 +2,4 @@
 safe: false
 future: false
 markdown: rdiscount
+pygments: true

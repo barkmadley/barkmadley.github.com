@@ -179,8 +179,13 @@ body {
   background: white;
 }
 
-header, p {
+header, p, div.highlight {
   margin-bottom: 18px;
+}
+
+div.highlight pre {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 /* Typography presets
