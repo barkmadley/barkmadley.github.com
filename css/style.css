@@ -183,6 +183,9 @@ header, p, div.highlight, ul, ol {
   margin-bottom: 1em;
 }
 
+h1 span {
+}
+
 div.highlight pre {
   padding-top: 0;
   padding-bottom: 0;
