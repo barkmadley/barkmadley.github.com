@@ -25,7 +25,7 @@ task :post, [:date,:name] do |t, args|
   sh "git checkout master"
   sh "git checkout -b #{date}"
   subbed_name = name.sub(/[ \t'"]+/,"-")
-  post_name = "_posts/#{date}-#{subbed_name}"
+  post_name = "_posts/#{date}-#{subbed_name}.md"
   sh "touch #{post_name}"
   sh "git add #{post_name}"
 end
