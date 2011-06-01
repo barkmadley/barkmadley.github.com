@@ -11,3 +11,13 @@ happened at my previous work place, and I still have not written my bio for the
 [Yesod Contributors](http://www.yesodweb.com/page/contributors/) page. An honour
 I was asked to do after submitting only one patch.
 
+I recently rewatched [social networking for
+developers](http://www.hanselman.com/blog/FoundVideoSocialNetworkingForDevelopersAndMakingYourBlogSuckLess.aspx)
+so there really is no excuse for not trying to get out there and make a name for
+myself. My lack of self promotion is starting to look like genetic thing. The
+other day I was filling out a performance review which I felt was honest and
+adequate for its purposes. It turns out my supervisor did not think so and he
+came over to me with the comment "It looks like you need more practice talking
+yourself up". Either way I will be writing up my bios for both Yesod and Red
+Lizards in the coming week and submitting them.
+
