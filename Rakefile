@@ -10,7 +10,7 @@ end
 
 desc 'Build and start server with --auto'
 task :server do
-  jekyll '--server --auto --future'
+  jekyll '--server --auto'
 end
 
 def jekyll(opts = '')
