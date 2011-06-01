@@ -170,12 +170,11 @@ a:hover { color: #036; }
 
 html {
   background-image: url(/img/29-b.png), url(/img/37-b.png), url(/img/53-b.png);
-  height: 100%;
+  padding: 10px 0;
 }
 
 body {
   margin: 0 auto;
-  margin-top: 10px;
   background: white;
 }
 
