@@ -21,3 +21,7 @@ came over to me with the comment "It looks like you need more practice talking
 yourself up". Either way I will be writing up my bios for both Yesod and Red
 Lizards in the coming week and submitting them.
 
+Here is a draft:
+
+
+
