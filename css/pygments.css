@@ -1,4 +1,9 @@
-.highlight { background-color: #333333; color:#eaeaea; }
+.highlight {
+  border-radius: 6px;
+  background-color: #333333;
+  color:#eaeaea;
+}
+
 .highlight pre {
     overflow-x:auto;
     padding:15px;
@@ -103,4 +108,3 @@
 .highlight .vg { color: #fb660a } /* Name.Variable.Global */
 .highlight .vi { color: #fb660a } /* Name.Variable.Instance */
 .highlight .il { color: #0086f7; font-weight: bold } /* Literal.Number.Integer.Long */
-
