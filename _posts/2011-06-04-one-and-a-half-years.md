@@ -18,8 +18,9 @@ myself. My lack of self promotion is starting to look like genetic thing. The
 other day I was filling out a performance review which I felt was honest and
 adequate for its purposes. It turns out my supervisor did not think so and he
 came over to me with the comment "It looks like you need more practice talking
-yourself up". Either way I will be writing up my bios for both Yesod and Red
-Lizards in the coming week and submitting them.
+yourself up", meaning speaking honestly about the slow but accelerating progress
+of our product is a bad thing. Either way I will be writing up my bios for both
+Yesod and Red Lizards in the coming week and submitting them.
 
 Here is a draft:
 
