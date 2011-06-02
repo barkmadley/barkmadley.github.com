@@ -186,12 +186,11 @@ h1 span {
 }
 
 div.highlight {
-  background: #F0F0F0;
+  border-radius: 6px;
 }
 
 div.highlight pre {
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 15px;
 }
 
 /* Typography presets
