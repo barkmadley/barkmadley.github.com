@@ -30,19 +30,19 @@ task :post, [:date,:name] do |t, args|
   sh "git add #{post_name}"
 end
 
-desc ''
+desc 'merge branches that are based on dates (usually containing only posts) and push them to the github based on todays date'
 task :merge do
   date = %x[date "+%Y-%m-%d"].strip
+  sh "git checkout master"
   brs = %x[git branch]
   brs = brs.lines.collect {|line| line.strip}
-  brs = brs.select {|line| line != "* master"}
+  brs = brs.select {|line| line.match(/^\d\d\d\d-\d\d-\d\d$/)}
   brs = brs.select {|line| line <= date}
-  sh "git checkout master"
   brs.each do |date|
     puts date
     sh "git merge #{date}"
     sh "git branch -d #{date}"
-    sh "git push origin :#{date}"
+    %x[git push origin :#{date}]
   end
   sh "git push origin master"
 end
