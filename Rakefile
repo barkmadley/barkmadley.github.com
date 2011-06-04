@@ -46,8 +46,7 @@ task :merge do
   date = %x[date "+%Y-%m-%d"].strip
   sh "git checkout master"
   sh "git fetch"
-  brs = %x[git branch]
-  brs = brs.lines.
+  %x[git branch].lines.
     map    {|line| line.strip}.
     select {|line| line.match(/^\d\d\d\d-\d\d-\d\d$/)}.
     select {|line| line <= date}.
