@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fun with FizzBuzz and Haskells Monoids
+title: fun with fizzbuzz and haskells monoids
 
 ---
 In this short article I will be exploring FizzBuzz, and showing how the monoidal approach helps combine the logic of the problem in a reasonable way when compared to the naive solution.
