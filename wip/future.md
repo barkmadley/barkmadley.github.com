@@ -1,6 +1,22 @@
 ---
 layout: post
 title: future posts with jekyll
+data: |
+  {% if site.safe %} <!-- This is only true when run on github -->
+  {% else %}
+  <header>
+    <h2>work in progress</h2>
+  </header>
+  <ul class="posts">
+  {% for pag in site.pages %}
+    {% if pag.url contains '/wip/' %}
+    <li>
+      <a href="{{ pag.url }}">{{ pag.title }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+  {% endif %}
 ---
 
 Since I created a [jekyll](link) based website that will contain all my future
@@ -28,10 +44,11 @@ branch which I keep locally and it holds the ideas I have for future posts. When
 a post has been fully baked I will pick a date and move it to it's own branch,
 which will be named based on the date I pick to publish it.
 
-I created a rake task that simplifies the steps that are required to create the
-dated branch. This will slurp a file from the wip folder (only available on the
-wip branch) and create a new branch based on a date that is passed in as an
-argument.
+I created a rake task in my
+[rakefile](https://github.com/barkmadley/barkmadley.github.com/blob/master/Rakefile)
+that simplifies the steps that are required to create the dated branch. This
+will slurp a file from the wip folder (only available on the wip branch) and
+create a new branch based on a date that is passed in as an argument.
 
 {% highlight ruby %}
 desc 'create a new branch (from master) with a new post in it'
@@ -39,7 +56,7 @@ task :post, [:date,:name] do |t, args|
   sh "git checkout wip"
   date = args.date
   name = args.name
-  content = %x[cat wip/#{args.name}]
+  content = %x[cat wip/#{args.name}.md]
   sh "git checkout master"
   sh "git checkout -b #{date}"
   subbed_name = name.gsub(/[^a-zA-Z0-9]+/,"-")
@@ -48,6 +65,7 @@ task :post, [:date,:name] do |t, args|
   f.write(content)
   f.close
   sh "git add #{post_name}"
+  sh "git commit" # this will open the commit vim instance
 end
 {% endhighlight %}
 
@@ -90,5 +108,10 @@ git commit # this commits 2011-06-06-somefile.md into the 2011-06-06 branch
 rake merge
 {% endhighlight %}
 
-https://github.com/barkmadley/barkmadley.github.com/blob/master/Rakefile
+In addition to this I have also made it easier to preview my work in progress
+pages by using the site.pages enumeration to see what I have in the pipeline.
+
+{% highlight html %}
+  {{ page.data }}
+{% endhighlight %}
 
