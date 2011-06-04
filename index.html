@@ -13,5 +13,20 @@ title: barkmadley
       <li><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
+  {% if site.safe %}
+  {% else %}
+  <header>
+    <h2>work in progress</h2>
+  </header>
+  <ul class="posts">
+  {% for pag in site.pages %}
+    {% if pag.url contains '/wip/' %}
+    <li>
+      <a href="{{ pag.url }}">{{ pag.title }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+  {% endif %}
 
 </article>

@@ -10,7 +10,12 @@ end
 
 desc 'Build and start server with --auto'
 task :server do
-  jekyll '--server --auto'
+  jekyll '--server --auto --future'
+end
+
+desc 'Build and start server with --auto'
+task :prod do
+  jekyll '--server --auto --no-future --safe --no-lsi'
 end
 
 def jekyll(opts = '')
@@ -34,6 +39,7 @@ desc 'merge branches that are based on dates (usually containing only posts) and
 task :merge do
   date = %x[date "+%Y-%m-%d"].strip
   sh "git checkout master"
+  sh "git fetch"
   brs = %x[git branch]
   brs = brs.lines.
     map    {|line| line.strip}.
