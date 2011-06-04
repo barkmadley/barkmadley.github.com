@@ -37,6 +37,7 @@ task :post, [:date,:name] do |t, args|
   f.write(content)
   f.close
   sh "git add #{post_name}"
+  sh "git commit"
 end
 
 
