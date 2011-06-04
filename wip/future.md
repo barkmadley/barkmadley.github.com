@@ -19,30 +19,29 @@ data: |
   {% endif %}
 ---
 
-Since I created a [jekyll](link) based website that will contain all my future
-postings I started thinking about how I would handle the scenario whereby I
-would like to write now, but publish later. This capability would allow me to
-queue up some posts quickly, but spread out the publishing time to make it look
-like I have been writing on a consistent timeline. While this may be similar to
-lying, I think that at the very least it would be an intellectual exercise to
-come up with a capable scheme to accomplish this goal, especially since all the
-major publishing platforms allow this functionality.
+Since I created a [jekyll](https://github.com/mojombo/jekyll/) based website
+that will contain all my future postings I started thinking about how I would
+handle the scenario whereby I would like to write now, but publish later. This
+capability would allow me to queue up some posts quickly, but spread out the
+publishing time to make it look like I have been writing on a consistent
+timeline. While this may be similar to lying, I think that at the very least it
+would be an intellectual exercise to come up with a capable scheme to accomplish
+this goal, especially since all the major publishing platforms allow this
+functionality.
 
-I did consider just using the [future setting](link) that is baked into jekyll,
-however this presented a few limitations and extra work on my part to make it
-work in a seemless manner (I would have to do needless commits anyway since
-github only regenerates the site when you push a commit). I figured I might
-learn some more of the intricacies of git, as well as make something a little
-bit more flexible.
+I did consider just using the
+[future](https://github.com/mojombo/jekyll/wiki/Configuration) setting that is
+baked into jekyll, however this presented a few limitations and extra work on my
+part to make it work in a seemless manner (I would have to do needless commits
+anyway since github only regenerates the site when you push a commit). I figured
+I might learn some more of the intricacies of git, as well as make something a
+little bit more flexible.
 
-The overall design
-------------------
-
-So currently I have two main branches for this [repository](link), the master
-branch which is what github bases the site off of, and the work in progress
-branch which I keep locally and it holds the ideas I have for future posts. When
-a post has been fully baked I will pick a date and move it to it's own branch,
-which will be named based on the date I pick to publish it.
+The overall design is to have two main branches, the master branch which is what
+github uses as the base for the jekyll build, and the work in progress branch
+which I keep locally and it holds the ideas I have for future posts. When a post
+has been fully baked I will pick a date and move it to it's own branch, which
+will be named based on the date I pick to publish it.
 
 I created a rake task in my
 [rakefile](https://github.com/barkmadley/barkmadley.github.com/blob/master/Rakefile)
@@ -112,6 +111,9 @@ In addition to this I have also made it easier to preview my work in progress
 pages by using the site.pages enumeration to see what I have in the pipeline.
 
 {% highlight html %}
-  {{ page.data }}
+{{ page.data }}
 {% endhighlight %}
+
+I am very happy with this setup for now, and I am sure there will be more tweaks
+and improvements to it in the future.
 
