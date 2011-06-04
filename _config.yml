@@ -2,3 +2,4 @@
 safe: false
 markdown: rdiscount
 pygments: true
+exclude: build
