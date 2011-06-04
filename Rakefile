@@ -25,15 +25,20 @@ end
 
 desc 'create a new branch (from master) with a new post in it'
 task :post, [:date,:name] do |t, args|
+  sh "git checkout wip"
   date = args.date
   name = args.name
+  content = %x[cat wip/#{args.name}]
   sh "git checkout master"
   sh "git checkout -b #{date}"
   subbed_name = name.gsub(/[^a-zA-Z0-9]+/,"-")
   post_name = "_posts/#{date}-#{subbed_name}.md"
-  sh "touch #{post_name}"
+  f = File.new(post_name, "w")
+  f.write(content)
+  f.close
   sh "git add #{post_name}"
 end
+
 
 desc 'merge branches that are based on dates (usually containing only posts) and push them to the github based on todays date'
 task :merge do
@@ -53,4 +58,5 @@ task :merge do
   end
   sh "git push origin master"
 end
+
 
