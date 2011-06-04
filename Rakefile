@@ -28,7 +28,7 @@ task :post, [:date,:name] do |t, args|
   sh "git checkout wip"
   date = args.date
   name = args.name
-  content = %x[cat wip/#{args.name}]
+  content = %x[cat wip/#{args.name}.md]
   sh "git checkout master"
   sh "git checkout -b #{date}"
   subbed_name = name.gsub(/[^a-zA-Z0-9]+/,"-")
