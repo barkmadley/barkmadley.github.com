@@ -182,6 +182,10 @@ header, p, div.highlight, ul, ol {
   margin-bottom: 1em;
 }
 
+header h3 a {
+  text-decoration: none;
+}
+
 /* Typography presets
   ------------------ */
 
