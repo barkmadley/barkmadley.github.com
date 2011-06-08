@@ -9,10 +9,12 @@ layout: nil
   http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 {% for p in site.pages %}
 {% if p.url != page.url %}
+{% if p.url contains '.xml' %}
 <url>
   <loc>http://barkmadley.com{{ p.url | replace:'index.html','' }}</loc>
   <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
 </url>
+{% endif %}
 {% endif %}
 {% endfor %}
 {% for post in site.posts %}
