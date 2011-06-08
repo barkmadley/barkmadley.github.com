@@ -1,6 +1,6 @@
 # overwritten, use as flag to say when running on github.
 safe: false
-future: false
+future: true
 markdown: rdiscount
 pygments: true
 exclude: build
