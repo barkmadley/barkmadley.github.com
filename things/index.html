@@ -1,0 +1,26 @@
+---
+layout: default
+title: things
+---
+
+<article>
+  <header>
+    <h2>things</h2>
+  </header>
+  {% if site.pages.length > 0 %}
+  <ul class="posts">
+  {% for pag in site.pages %}
+    {% if pag.url contains '/things/' %}
+    {% if pag.url != page.url %}
+    <li>
+      <a href="{{ pag.url }}">{{ pag.title }}</a>
+    </li>
+    {% endif %}
+    {% endif %}
+  {% endfor %}
+  </ul>
+  {% else %}
+  <h3>Nothing yet</h3>
+  {% endif %}
+
+</article>

@@ -176,6 +176,8 @@ html {
 body {
   margin: 0 auto;
   background: white;
+  box-shadow: 0 0 5px #888;
+  border-radius: 5px;
 }
 
 header, p, div.highlight, ul, ol {
