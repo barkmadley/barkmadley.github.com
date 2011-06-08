@@ -10,6 +10,7 @@ layout: nil
 {% for p in site.pages %}
 {% if p.url != page.url %}
 {% if p.url contains '.xml' %}
+{% else %}
 <url>
   <loc>http://barkmadley.com{{ p.url | replace:'index.html','' }}</loc>
   <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
