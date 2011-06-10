@@ -9,10 +9,8 @@ title: barkmadley
     <h2>five latest posts</h2>
   </header>
   <ul class="posts">
-    {% for post in site.posts %}
-      {% if forloop.index0 < 5 %}
+    {% for post in site.posts limit:5 offset:0 %}
       <li><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
-      {% endif %}
     {% endfor %}
   </ul>
   {% if site.safe %}
@@ -21,10 +19,8 @@ title: barkmadley
     <h2>other random posts</h2>
   </header>
   <ul class="posts">
-    {% for post in site.posts %}
-    {% if forloop.index0 >= 5 %}
-    <li class="hidden"><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
-      {% endif %
+    {% for post in site.posts offset:5 %}
+      <li class="hidden"><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
   <header>
