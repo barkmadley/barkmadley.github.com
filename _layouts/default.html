@@ -26,12 +26,12 @@
 
 
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="/css/style.css?v=7">
-  <link rel="stylesheet" href="/css/pygments.css?v=7">
+  <link rel="stylesheet" href="/css/style.css?v=8">
+  <link rel="stylesheet" href="/css/pygments.css?v=8">
   <link rel="stylesheet" href="/js/libs/sb/shadowbox.css">
 
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
-  <link rel="stylesheet" media="handheld" href="/css/handheld.css?v=7">  -->
+  <link rel="stylesheet" media="handheld" href="/css/handheld.css?v=8">  -->
 
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <script src="/js/libs/modernizr-1.7.min.js"></script>
@@ -64,13 +64,24 @@
   <script src="/js/libs/jquery.tmpl.js"></script>
   <script src="/js/libs/knockout-1.2.1.js"></script>
   <script src="/js/libs/sb/shadowbox.js"></script>
-  <script>
-    Shadowbox.init();
-  </script>
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script src="/js/plugins.js?v=7"></script>
-  <!--<script src="/js/script.js?v=7"></script>-->
+  <script src="/js/plugins.js?v=8"></script>
+  <!--<script src="/js/script.js?v=8"></script>-->
+  <script>
+/* Author: Mark Bradley
+ * no point in putting this in a seperate file when its so small.
+ */
+
+/* if a page has an init function defined, run that function once the page has
+ * finished loading */
+$(function () {
+  if (page_init) {
+    page_init();
+  }
+});
+Shadowbox.init();
+  </script>
   <!-- end scripts-->
 
   <!--[if lt IE 7 ]>

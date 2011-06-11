@@ -13,16 +13,60 @@ title: barkmadley
       <li><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
-  {% if site.safe %}
-  {% else %}
   <header>
     <h2>other random posts</h2>
   </header>
-  <ul class="posts">
-    {% for post in site.posts offset:5 %}
-      <li class="hidden"><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
+  <ul class="posts"
+    data-bind="template: { name: 'postLink', foreach: random_posts }"></ul>
+<script id="postLink" type="text/html">
+  <li><span>${ date }</span>
+  &nbsp;<a href="${ url }">${ title }</a></li>
+</script>
+<script>
+function random_pick(array, number) {
+  var num = array.length;
+  var random_indices = [];
+  function add_index(index) {
+    if (index >= num) {
+      index = 0;
+    }
+    if (ko.utils.arrayIndexOf(random_indices, index) == -1) {
+      random_indices.push(index);
+      return;
+    }
+    add_index(index+1);
+  }
+  if (number >= num) {
+    random_indices = ko.utils.range(0, num - 1);
+  } else {
+    for (var i = 0; i < number; i++) {
+      var ran_number = Math.floor(Math.random()*num);
+      add_index(random_indices, ran_number);
+    }
+  }
+  return ko.utils.arrayMap(random_indices, function (index){
+    return array[index];
+  });
+}
+
+var page_init = function () {
+  var viewModel = {
+    posts: [{% for post in site.posts offset:5 %}
+    {
+      date: "{{ post.date | date_to_string }}",
+      url: "{{ post.url }}",
+      title: "{{ post.title }}"
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}]
+  };
+  viewModel.random_posts = ko.dependentObservable(function () {
+    return random_pick(this.posts, 5);
+  }, viewModel);
+  ko.applyBindings(viewModel);
+};
+</script>
+  {% if site.safe %}
+  {% else %}
   <header>
     <h2>work in progress</h2>
   </header>
