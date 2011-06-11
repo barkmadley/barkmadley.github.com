@@ -19,8 +19,7 @@ title: barkmadley
   <ul class="posts"
     data-bind="template: { name: 'postLink', foreach: random_posts }"></ul>
 <script id="postLink" type="text/html">
-  <li><span>${ date }</span>
-  &nbsp;<a href="${ url }">${ title }</a></li>
+  <li><span>${ date }</span> &nbsp;<a href="${ url }">${ title }</a></li>
 </script>
 <script>
 function random_pick(array, number) {
