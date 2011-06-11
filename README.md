@@ -12,7 +12,7 @@ You may not reuse anything therein without my permission:
 
 * \_posts/
 * wip/
-* other/
+* things/
 * img/
 
 All other directories and files are MIT Licensed. Feel free to use the HTML and
