@@ -58,10 +58,8 @@ task :merge do
     each do |remote|
       # merge remote branches into local ones
       local = remote.gsub(/origin\//,"")
-      puts "REMOTE LOCAL", remote, local, local_branches
       sh "git branch #{local}" unless local_branches.include? local
       sh "git checkout #{local}"
-#      sh "git checkout -B #{local}" # create local if it doesn't already exist
       sh "git merge #{remote}"
     end
   sh "git checkout master"
