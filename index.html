@@ -43,6 +43,7 @@ function random_pick(array, number) {
       add_index(random_indices, ran_number);
     }
   }
+  random_indices.sort();
   return ko.utils.arrayMap(random_indices, function (index){
     return array[index];
   });
