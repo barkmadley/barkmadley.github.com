@@ -28,7 +28,8 @@ task :post, [:date,:name] do |t, args|
   sh "git checkout wip"
   date = args.date
   name = args.name
-  content = %x[cat wip/#{args.name}.md]
+  wip_name = "wip/#{name}.md"
+  content = %x[cat #{wip_name}]
   sh "git checkout master"
   sh "git checkout -b #{date}"
   subbed_name = name.gsub(/[^a-zA-Z0-9]+/,"-")
@@ -37,7 +38,13 @@ task :post, [:date,:name] do |t, args|
   f.write(content)
   f.close
   sh "git add #{post_name}"
-  sh "git commit"
+  sh "git commit -m 'new post for #{date}'"
+  sh "git checkout wip"
+  sh "git rm #{wip_name}"
+  sh "git commit -m 'moved to branch #{date} as a post'"
+  sh "git checkout master"
+  sh "git push origin #{date}"
+  sh "git push origin wip"
 end
 
 
