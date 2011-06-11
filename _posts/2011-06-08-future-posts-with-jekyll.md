@@ -1,9 +1,9 @@
 ---
 layout: post
 title: future posts with jekyll
+categories: ['jekyll']
 data: |
-  {% if site.safe %} <!-- This is only true when run on github -->
-  {% else %}
+  {% unless site.safe %} <!-- This is only true when run on github -->
   <header>
     <h2>work in progress</h2>
   </header>
@@ -16,7 +16,8 @@ data: |
     {% endif %}
   {% endfor %}
   </ul>
-  {% endif %}
+  {% endunless %}
+
 ---
 
 Since I created a [jekyll](https://github.com/mojombo/jekyll/) based website
