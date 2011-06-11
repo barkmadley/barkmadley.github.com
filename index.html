@@ -65,8 +65,7 @@ var page_init = function () {
   ko.applyBindings(viewModel);
 };
 </script>
-  {% if site.safe %}
-  {% else %}
+  {% unless site.safe %}
   <header>
     <h2>work in progress</h2>
   </header>
@@ -79,6 +78,6 @@ var page_init = function () {
     {% endif %}
   {% endfor %}
   </ul>
-  {% endif %}
+  {% endunless %}
 
 </article>
