@@ -51,18 +51,26 @@ end
 desc 'merge branches that are based on dates (usually containing only posts) and push them to the github based on todays date'
 task :merge do
   date = %x[date "+%Y-%m-%d"].strip
-  sh "git checkout master"
   sh "git fetch"
+  %x[git branch -r].lines.
+    map {|line| line.strip}.
+    each do |remote|
+      # merge remote branches into local ones
+      local = remote.gsub(/origin\//,"")
+      sh "git checkout -B #{local}" # create local if it doesn't already exist
+      sh "git merge #{remote}"
+    end
+  sh "git checkout master"
   %x[git branch].lines.
     map    {|line| line.strip}.
     select {|line| line.match(/^\d\d\d\d-\d\d-\d\d$/)}.
     select {|line| line <= date}.
     each do |date|
-    puts date
-    sh "git merge #{date}"
-    sh "git branch -d #{date}"
-    %x[git push origin :#{date}]
-  end
+      puts date
+      sh "git merge #{date}"
+      sh "git branch -d #{date}"
+      %x[git push origin :#{date}]
+    end
   sh "git push origin master"
 end
 
