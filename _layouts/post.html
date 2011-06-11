@@ -11,6 +11,7 @@ layout: default
     {% if page.subtitle %}
     <h4>{{ page.subtitle }}</h4>
     {% endif %}
+    <h5>{{ page.date | date:"%Y-%m-%d" }}</h5>
   </header>
 
   {{ content }}
