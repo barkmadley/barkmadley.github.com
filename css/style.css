@@ -188,6 +188,21 @@ header h3 a {
   text-decoration: none;
 }
 
+figure {
+  float: right;
+  padding: 10px;
+  background-color: #DDD;
+  box-shadow: 0 0 5px #888;
+  border-radius: 5px;
+  text-align: center;
+}
+
+figure img {
+  /* margin of 10 */
+  /* (896 / 2) - 20 */
+  max-width: 428px;
+}
+
 /* Typography presets
   ------------------ */
 
