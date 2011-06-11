@@ -52,12 +52,15 @@ desc 'merge branches that are based on dates (usually containing only posts) and
 task :merge do
   date = %x[date "+%Y-%m-%d"].strip
   sh "git fetch"
+  local_branches = %x[git branch].lines.map {|line| line.strip}
   %x[git branch -r].lines.
     map {|line| line.strip}.
     each do |remote|
       # merge remote branches into local ones
       local = remote.gsub(/origin\//,"")
-      sh "git checkout -B #{local}" # create local if it doesn't already exist
+      sh "git branch #{local}" if local_branches.include? local
+      sh "git checkout #{local}"
+#      sh "git checkout -B #{local}" # create local if it doesn't already exist
       sh "git merge #{remote}"
     end
   sh "git checkout master"
