@@ -39,6 +39,15 @@
   background:#FF5E99;
 }
 
+.highlight pre code[class]:before {
+  content: attr(class);
+  float: right;
+  color: #FB660A;
+  line-height: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  font-variant: small-caps;
+}
 
 .highlight .c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
 .highlight .err { color: #ffffff } /* Error */
