@@ -39,6 +39,14 @@
   background:#FF5E99;
 }
 
+.highlight pre code[class]:after {
+  content: attr(class);
+  position: absolute;
+  top: 22px;
+  right: 12px;
+  color: #FF4500;
+  font-size: 24px;
+}
 
 .highlight .c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
 .highlight .err { color: #ffffff } /* Error */
