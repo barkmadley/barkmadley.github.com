@@ -6,6 +6,9 @@ title: philosophy of web development
 
 problem with web development.
 
+I find that in modern web development, we (programmers) tend to write a lot of
+glue code.
+
 multiple language contexts.
 
 not enough abstraction.
