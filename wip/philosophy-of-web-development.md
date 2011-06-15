@@ -7,9 +7,16 @@ title: philosophy of web development
 problem with web development.
 
 I find that in modern web development, we (programmers) tend to write a lot of
-glue code.
+glue code. Sometimes this glue code is hidden away in the form of libraries, but
+usually what we tend to end up doing is writing code that connects two isolated
+pieces of code together in away that Gets The Task Done<sup>tm</sup>.
 
 multiple language contexts.
+
+Not only do we usually write glue code, we have to do it in multiple languages
+and also across these language boundaries.
+
+example ORMs vs SQL.
 
 not enough abstraction.
 
