@@ -2,6 +2,7 @@
   border-radius: 6px;
   background-color: #333333;
   color:#eaeaea;
+  position: relative;
 }
 
 .highlight pre {
@@ -39,15 +40,17 @@
   background:#FF5E99;
 }
 
-.highlight pre code[class]:before {
+.highlight pre code[class]:after {
   content: attr(class);
-  float: right;
   color: #FB660A;
-  line-height: 24px;
+  right: 10px;
+  top: 0;
+  position: absolute;
   font-size: 24px;
   font-weight: bold;
   font-variant: small-caps;
 }
+
 
 .highlight .c { color: #008800; font-style: italic; background-color: #0f140f } /* Comment */
 .highlight .err { color: #ffffff } /* Error */
