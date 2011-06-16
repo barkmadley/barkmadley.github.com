@@ -7,7 +7,13 @@ title: things
   <header>
     <h2>things</h2>
   </header>
-  {% if site.pages.length > 0 %}
+  {% assign anything = false %}
+  {% for pag in site.pages %}
+    {% if pag.url contains '/things/' %}
+      {% assign anything = true %}
+    {% endif %}
+  {% endfor %}
+  {% if anything %}
   <ul class="posts">
   {% for pag in site.pages %}
     {% if pag.url contains '/things/' %}
