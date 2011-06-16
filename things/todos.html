@@ -76,7 +76,6 @@ window.page_init = function () {
       "foreach": "tasks"
     }
   });
-  $("#tasks footer").addClass("clearfix");
   $("#tasks footer a").dataBind({
     "event": { "click": "clearCompleted" },
     "visible": "completed().length > 0"
