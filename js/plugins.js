@@ -59,5 +59,24 @@ window.log = function(){
         });
     };
 
+    /** this is quite a massive hack 
+     it works around the fact that you cannot simply host a template inside a normal element
+     since it won't have the text attribute that a script tag does.
+     */
+    $['fn']['preBindTemplate'] = $['fn']['preBindTemplate'] || function () {
+      /* don't return anything */
+      this['each'](function () {
+        var id   = $(this)['attr']('id');
+        /* grab the html */
+        var html = $(this)['html']();
+        /* move the old template to a different id */
+        /* todo, do something clever with the template */
+        $(this)['attr']('id', id + 'old');
+        /* add a new template with the right id */
+        $("<script type='text/html' id='" + id + "'>" +
+          html + "<\/script>")['appendTo']($("body")[0]);
+      });
+    };
+
 })(jQuery);
 

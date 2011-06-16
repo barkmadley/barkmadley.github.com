@@ -3,21 +3,18 @@ layout: default
 title: knockout todos
 ---
 
-<script type="text/html" class="hidden" id="tasksTemplate">
-<div class="item"
-  data-bind="css: { done: isDone, editing: isEditing }, event: { dblclick: startEdit }">
-  <div class="view" title="Double click to edit...">
-    <input type="checkbox" data-bind="checked: isDone">
-    <span data-bind="text: name"></span>
-    <a class="destroy"
-      data-bind="click: function () { viewModel.tasks.remove($data); }"></a>
-  </div>
-  <div class="edit">
-    <input type="text"
-      data-bind="value: name, event: { keyup: endEditEnter, blur: endEdit }">
+<div type="text/html" class="hidden" id="tasksTemplate">
+  <div class="item">
+    <div class="view" title="Double click to edit...">
+      <input type="checkbox">
+      <span></span>
+      <a class="destroy"></a>
+    </div>
+    <div class="edit">
+      <input type="text">
+    </div>
   </div>
 </div>
-</script>
 
 
 <div id="views">
@@ -90,6 +87,27 @@ window.page_init = function () {
     "text": "openTasks"
   });
 
+  $("#tasksTemplate .item").dataBind({
+    "css": { "done": "isDone", "editing": "isEditing" },
+    "event": { "dblclick": "startEdit" }
+  });
+  $("#tasksTemplate .view input[type=checkbox]").dataBind({
+    "checked": "isDone"
+  });
+  $("#tasksTemplate .view span").dataBind({
+    "text": "name"
+  });
+  $("#tasksTemplate .view .destroy").dataBind({
+    "click": "function() { viewModel.tasks.remove($data); }"
+  });
+  $("#tasksTemplate .edit input").dataBind({
+    "value": "name",
+    "event": { "keyup": "endEditEnter", "blur": "endEdit" }
+  });
+
+  /* prebind the template places it in a script block so KO knows what to do */
+  $("#tasksTemplate").preBindTemplate();
+
   /* initial state is an empty task list and an empty task string */
   viewModel.tasks = ko.observableArray(
     /* load tasks from localStorage if available or [] */
@@ -139,7 +157,6 @@ window.page_init = function () {
   }, viewModel);
 
   ko.applyBindings(viewModel, $("#tasks")[0]);
-
 };
 </script>
 
