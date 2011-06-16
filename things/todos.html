@@ -22,16 +22,12 @@ title: knockout todos
     <h2><a href="https://github.com/barkmadley/barkmadley.github.com/blob/master/things/todos.html"
         title="view source" target="_blank">{{ page.title }}</a></h2>
     <p>
-      <input id="addTaskInput" type="text" placeholder="What needs to be done?"
-        data-bind="value: taskName, event: { keyup: addTask }" />
+      <input id="addTaskInput" type="text" placeholder="What needs to be done?" />
     </p>
-    <div class="items"
-      data-bind="template: { name: 'tasksTemplate', foreach: tasks }" ></div>
+    <div class="items"></div>
     <footer>
-      <a
-        class="clear"
-        data-bind="event: { click: clearCompleted }">Clear completed</a>
-      <div class="count"><span data-bind="text: openTasks">&nbsp;</span> left</div>
+      <a class="clear">Clear completed</a>
+      <div class="count"><span>&nbsp;</span> left</div>
     </footer>
   </div>
 </div>
@@ -69,6 +65,29 @@ var task = function(name, isDone){
 var viewModel = {};
 
 window.page_init = function () {
+
+  $("#tasks p input").dataBind({
+    "value": "taskName",
+    "event": { "keyup": "addTask" }
+  });
+  $("#tasks div.items").dataBind({
+    "template": {
+      "name": "'tasksTemplate'",
+      "foreach": "tasks"
+    }
+  });
+  $("#tasks footer").addClass("clearfix");
+  $("#tasks footer a").dataBind({
+    "event": { "click": "clearCompleted" },
+    "visible": "completed().length > 0"
+  });
+  $("#tasks footer .count").dataBind({
+    "visible": "openTasks() > 0"
+  });
+  $("#tasks footer span").dataBind({
+    "text": "openTasks"
+  });
+
   /* initial state is an empty task list and an empty task string */
   viewModel.tasks = ko.observableArray(
     /* load tasks from localStorage if available or [] */
@@ -259,6 +278,9 @@ window.page_init = function () {
 
 #tasks .count span {
   font-weight: bold;
+}
+#tasks footer a {
+  margin-bottom: 7px;
 }
 </style>
 
