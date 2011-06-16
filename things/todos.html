@@ -3,13 +3,16 @@ layout: default
 title: knockout todos
 ---
 
-<script type="text/html" id="tasksTemplate">
-<div class="item" data-bind="css: { done: isDone }, event: { dblclick: startEdit }">
-  <div class="view" data-bind="visible: !isEditing()" title="Double click to edit...">
+<script type="text/html" class="hidden" id="tasksTemplate">
+<div class="item"
+  data-bind="css: { done: isDone, editing: isEditing }, event: { dblclick: startEdit }">
+  <div class="view" title="Double click to edit...">
     <input type="checkbox" data-bind="checked: isDone">
     <span data-bind="text: name"></span>
+    <a class="destroy"
+      data-bind="click: function () { viewModel.tasks.remove($data); }"></a>
   </div>
-  <div class="edit" data-bind="visible: isEditing">
+  <div class="edit">
     <input type="text"
       data-bind="value: name, event: { keyup: endEditEnter, blur: endEdit }">
   </div>
@@ -135,7 +138,7 @@ window.page_init = function () {
     localStorage['todos'] = JSON.stringify(state);
   }, viewModel);
 
-  ko.applyBindings(viewModel);
+  ko.applyBindings(viewModel, $("#tasks")[0]);
 
 };
 </script>
@@ -213,12 +216,16 @@ window.page_init = function () {
   cursor: pointer;
   width: 20px;
   height: 20px;
-  background: url(./destroy.png) no-repeat center center;
+  background: url(/img/destroy.png) no-repeat center center;
 }
 
 #tasks .item:hover .destroy {
   display: block;
 }
+
+#tasks .item .edit { display: none; }
+#tasks .item.editing .edit { display: block; }
+#tasks .item.editing .view { display: none; }
 
 #tasks footer {
   display: block;
