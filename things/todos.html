@@ -1,0 +1,123 @@
+---
+layout: default
+title: knockout todos
+---
+
+<script type="text/html" id="tasksTemplate">
+<div class="item" data-bind="css: { done: isDone }, event: { dblclick: startEdit }">
+  <div class="view" data-bind="visible: !isEditing()" title="Double click to edit...">
+    <input type="checkbox" data-bind="checked: isDone">
+    <span data-bind="text: name"></span>
+  </div>
+  <div class="edit" data-bind="visible: isEditing">
+    <input type="text"
+      data-bind="value: name, event: { keyup: endEditEnter, blur: endEdit }">
+  </div>
+</div>
+</script>
+
+
+<div id="views">
+  <div id="tasks">
+    <h2>{{ page.title }}</h2>
+    <p>
+      <input id="addTaskInput" type="text" placeholder="What needs to be done?"
+        data-bind="value: taskName, event: { keyup: addTask }" />
+    </p>
+    <div class="items"
+      data-bind="template: { name: 'tasksTemplate', foreach: tasks }" ></div>
+    <footer>
+      <a
+        class="clear"
+        data-bind="event: { click: clearCompleted }">Clear completed</a>
+      <div class="count"><span data-bind="text: openTasks">&nbsp;</span> left</div>
+    </footer>
+  </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+/* a class that represents tasks */
+var task = function(name, isDone){
+  /* base properties */
+  var task = {
+    name: ko.observable(name),
+    isDone: ko.observable(isDone)
+  }
+  /* behaviour properties */
+
+  /* hide/show parts of the view
+     NOTE: it is important that the view does not get re-rendered
+   */
+  task.isEditing = ko.observable(false);
+
+  task.startEdit = function (event) {
+    task.isEditing(true);
+    $(event.currentTarget).find(".edit input").focus();
+  };
+  task.endEdit = function () {
+    task.isEditing(false);
+  };
+  task.endEditEnter = function () {
+    event.keyCode == '13' && task.endEdit();
+  };
+  return task;
+};
+
+/* just the way my pages work, globals go outside the page_init function */
+var viewModel = {};
+
+window.page_init = function () {
+  /* initial state is an empty task list and an empty task string */
+  viewModel.tasks = ko.observableArray(
+    /* load tasks from localStorage if available or [] */
+    ko.utils.arrayMap(
+      JSON.parse((localStorage && localStorage['todos']) || "[]"),
+      function (item) {
+        return task( item.name, item.isDone );
+      }
+    )
+  );
+  viewModel.taskName = ko.observable("");
+
+  /* add a new task when you hit enter */
+  viewModel.addTask = function (event) {
+    var taskName = this.taskName();
+    if (event.keyCode == '13' && taskName != "") {
+      this.tasks.push( task( taskName, false) );
+      this.taskName("");
+    }
+  };
+
+  /* list of completed tasks */
+  viewModel.completed = ko.dependentObservable(function () {
+    return ko.utils.arrayFilter(this.tasks(), function(item) {
+      return item.isDone();
+    });
+  }, viewModel);
+
+  /* clear all the completed tasks, simple enough */
+  viewModel.clearCompleted = function (event) {
+    this.tasks.removeAll(this.completed());
+  };
+
+  /* the number of tasks that are not completed */
+  viewModel.openTasks = ko.dependentObservable(function () {
+    return this.tasks().length - this.completed().length;
+  }, viewModel);
+
+  /* this is a DO that looks at all relevant observables and saves when
+     something changes.
+   */
+  viewModel.syncer = ko.dependentObservable(function () {
+    var state = ko.utils.arrayMap(this.tasks(), function (item) {
+      return { name: item.name(), isDone: item.isDone() };
+    });
+    localStorage['todos'] = JSON.stringify(state);
+  }, viewModel);
+
+  ko.applyBindings(viewModel);
+
+};
+</script>
+
