@@ -73,7 +73,7 @@ window.page_init = function () {
   viewModel.tasks = ko.observableArray(
     /* load tasks from localStorage if available or [] */
     ko.utils.arrayMap(
-      JSON.parse((localStorage && localStorage['todos']) || "[]"),
+      JSON.parse((window.localStorage && localStorage['todos']) || "[]"),
       function (item) {
         return task( item.name, item.isDone );
       }
