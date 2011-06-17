@@ -1,0 +1,309 @@
+---
+layout: default
+title: knockout todos
+---
+
+<div type="text/html" class="hidden kotemplate" id="tasksTemplate">
+  <div class="item">
+    <div class="view" title="Double click to edit...">
+      <input type="checkbox">
+      <span></span>
+      <a class="destroy"></a>
+    </div>
+    <div class="edit">
+      <input type="text">
+    </div>
+  </div>
+</div>
+
+
+<div id="views">
+  <div id="tasks">
+    <h2><a href="https://github.com/barkmadley/barkmadley.github.com/blob/master/things/todos.html"
+        title="view source" target="_blank">{{ page.title }}</a></h2>
+    <p>
+      <input id="addTaskInput" type="text" placeholder="What needs to be done?" />
+    </p>
+    <div class="items"></div>
+    <footer>
+      <a class="clear">Clear completed</a>
+      <div class="count"><span>&nbsp;</span> left</div>
+    </footer>
+  </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+/* a class that represents tasks */
+var task = function(name, isDone){
+  /* base properties */
+  var task = {
+    name: ko.observable(name),
+    isDone: ko.observable(isDone)
+  }
+  /* behaviour properties */
+
+  /* hide/show parts of the view
+     NOTE: it is important that the view does not get re-rendered
+   */
+  task.isEditing = ko.observable(false);
+
+  task.startEdit = function (event) {
+    task.isEditing(true);
+    $(event.currentTarget).find(".edit input").focus();
+  };
+  task.endEdit = function () {
+    task.isEditing(false);
+  };
+  task.endEditEnter = function () {
+    event.keyCode == '13' && task.endEdit();
+  };
+  return task;
+};
+
+/* just the way my pages work, globals go outside the page_init function */
+var viewModel = {};
+
+window.page_init = function () {
+
+  $("#tasks p input").dataBind({
+    "value": "taskName",
+    "event": { "keyup": "addTask" }
+  });
+  $("#tasks div.items").dataBind({
+    "template": {
+      "name": "'tasksTemplate'",
+      "foreach": "tasks"
+    }
+  });
+  $("#tasks footer a").dataBind({
+    "event": { "click": "clearCompleted" },
+    "visible": "completed().length > 0"
+  });
+  $("#tasks footer .count").dataBind({
+    "visible": "openTasks() > 0"
+  });
+  $("#tasks footer span").dataBind({
+    "text": "openTasks"
+  });
+
+  $("#tasksTemplate .item").dataBind({
+    "css": { "done": "isDone", "editing": "isEditing" },
+    "event": { "dblclick": "startEdit" }
+  });
+  $("#tasksTemplate .view input[type=checkbox]").dataBind({
+    "checked": "isDone"
+  });
+  $("#tasksTemplate .view span").dataBind({
+    "text": "name"
+  });
+  $("#tasksTemplate .view .destroy").dataBind({
+    "click": "function() { viewModel.tasks.remove($data); }"
+  });
+  $("#tasksTemplate .edit input").dataBind({
+    "value": "name",
+    "event": { "keyup": "endEditEnter", "blur": "endEdit" }
+  });
+
+  /* prebind the template places it in a script block so KO knows what to do */
+  $(".kotemplate").dataBindTemplate();
+
+  /* initial state is an empty task list and an empty task string */
+  viewModel.tasks = ko.observableArray(
+    /* load tasks from localStorage if available or [] */
+    ko.utils.arrayMap(
+      JSON.parse((window.localStorage && localStorage['todos']) || "[]"),
+      function (item) {
+        return task( item.name, item.isDone );
+      }
+    )
+  );
+  viewModel.taskName = ko.observable("");
+
+  /* add a new task when you hit enter */
+  viewModel.addTask = function (event) {
+    var taskName = this.taskName();
+    if (event.keyCode == '13' && taskName != "") {
+      this.tasks.push( task( taskName, false) );
+      this.taskName("");
+    }
+  };
+
+  /* list of completed tasks */
+  viewModel.completed = ko.dependentObservable(function () {
+    return ko.utils.arrayFilter(this.tasks(), function(item) {
+      return item.isDone();
+    });
+  }, viewModel);
+
+  /* clear all the completed tasks, simple enough */
+  viewModel.clearCompleted = function (event) {
+    this.tasks.removeAll(this.completed());
+  };
+
+  /* the number of tasks that are not completed */
+  viewModel.openTasks = ko.dependentObservable(function () {
+    return this.tasks().length - this.completed().length;
+  }, viewModel);
+
+  /* this is a DO that looks at all relevant observables and saves when
+     something changes.
+   */
+  viewModel.syncer = ko.dependentObservable(function () {
+    var state = ko.utils.arrayMap(this.tasks(), function (item) {
+      return { name: item.name(), isDone: item.isDone() };
+    });
+    localStorage['todos'] = JSON.stringify(state);
+  }, viewModel);
+
+  ko.applyBindings(viewModel, $("#tasks")[0]);
+};
+</script>
+
+<style>
+#views {
+  width: 520px;
+  margin: 0 auto 40px auto;
+  background: white;
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+
+  -moz-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+
+#tasks {
+  padding: 20px;
+}
+
+#tasks h1 {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 0 10px 0;
+}
+
+#tasks input[type="text"] {
+  width: 466px;
+  font-size: 24px;
+  font-family: inherit;
+  line-height: 1.4em;
+  border: 0;
+  outline: none;
+  padding: 6px;
+  border: 1px solid #999999;
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+
+#tasks input::-webkit-input-placeholder {
+  font-style: italic;
+}
+
+#tasks .items {
+  margin: 10px 0;
+  list-style: none;
+}
+
+#tasks .item {
+  padding: 15px 20px 15px 0;
+  position: relative;
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+}
+
+#tasks .item.done span {
+  color: #777777;
+  text-decoration: line-through;
+}
+
+#tasks .item .destroy {
+  position: absolute;
+  right: 10px;
+  top: 16px;
+  display: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url(/img/destroy.png) no-repeat center center;
+}
+
+#tasks .item:hover .destroy {
+  display: block;
+}
+
+#tasks .item .edit { display: none; }
+#tasks .item.editing .edit { display: block; }
+#tasks .item.editing .view { display: none; }
+
+#tasks footer {
+  display: block;
+  margin: 20px -20px -20px -20px;
+  overflow: hidden;
+
+  color: #555555;
+  background: #f4fce8;
+  border-top: 1px solid #ededed;
+  padding: 0 20px;
+  line-height: 36px;
+
+  -moz-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+
+#tasks .clear {
+  display: block;
+  float: right;
+  line-height: 20px;
+  text-decoration: none;
+
+  background: rgba(0, 0, 0, 0.1);
+  color: #555555;
+  font-size: 11px;
+  margin-top: 8px;
+  padding: 0 10px 1px;
+
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+
+  cursor: pointer;
+}
+
+#tasks .clear:hover {
+  background: rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+}
+
+#tasks .clear:active {
+  position: relative;
+  top: 1px;
+}
+
+#tasks .count span {
+  font-weight: bold;
+}
+#tasks footer a {
+  margin-bottom: 7px;
+}
+</style>
+
