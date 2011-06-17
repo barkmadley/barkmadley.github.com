@@ -34,36 +34,8 @@ title: knockout todos
 
 <script type="text/javascript" language="javascript">
 
-/* a class that represents tasks */
-var task = function(name, isDone){
-  /* base properties */
-  var task = {
-    name: ko.observable(name),
-    isDone: ko.observable(isDone)
-  }
-  /* behaviour properties */
-
-  /* hide/show parts of the view
-     NOTE: it is important that the view does not get re-rendered
-   */
-  task.isEditing = ko.observable(false);
-
-  task.startEdit = function (event) {
-    task.isEditing(true);
-    $(event.currentTarget).find(".edit input").focus();
-  };
-  task.endEdit = function () {
-    task.isEditing(false);
-  };
-  task.endEditEnter = function () {
-    event.keyCode == '13' && task.endEdit();
-  };
-  return task;
-};
-
-/* just the way my pages work, globals go outside the page_init function */
-var viewModel = {};
-
+/* just the way my pages work */
+/* page_init gets called after the library scripts get loaded */
 window.page_init = function () {
 
   $("#tasks p input").dataBind({
@@ -98,7 +70,7 @@ window.page_init = function () {
     "text": "name"
   });
   $("#tasksTemplate .view .destroy").dataBind({
-    "click": "function() { viewModel.tasks.remove($data); }"
+    "click": "remove"
   });
   $("#tasksTemplate .edit input").dataBind({
     "value": "name",
@@ -108,23 +80,54 @@ window.page_init = function () {
   /* prebind the template places it in a script block so KO knows what to do */
   $(".kotemplate").dataBindTemplate();
 
-  /* initial state is an empty task list and an empty task string */
-  viewModel.tasks = ko.observableArray(
-    /* load tasks from localStorage if available or [] */
-    ko.utils.arrayMap(
-      JSON.parse((window.localStorage && localStorage['todos']) || "[]"),
-      function (item) {
-        return task( item.name, item.isDone );
-      }
-    )
-  );
-  viewModel.taskName = ko.observable("");
+  /* a class that represents tasks */
+  function task(options){
+    /* base properties */
+    log(options.parent);
+    var task = ko.mapping.fromJS(options.data, { 'ignore': ["isEditing"] });
+    /* behaviour properties */
+
+    /* hide/show parts of the view
+NOTE: it is important that the view does not get re-rendered
+     */
+    task.isEditing = ko.observable(false);
+
+    task.remove = function (event) {
+      options.parent.mappedRemove({ "id": task.id });
+    };
+    task.startEdit = function (event) {
+      task.isEditing(true);
+      $(event.currentTarget).find(".edit input").focus();
+    };
+    task.endEdit = function () {
+      task.isEditing(false);
+    };
+    task.endEditEnter = function () {
+      event.keyCode == '13' && task.endEdit();
+    };
+    return task;
+  };
+  task.options = {
+    "key": function (data) { return ko.utils.unwrapObservable(data.id); },
+    "create": task
+  };
+
+  /* initial state is an empty task list and an empty task string, and id of 0 */
+  var defaultData = '{"tasks":[],"taskName":"","id":0}';
+  /* load from local storage if possible */
+  var jsonData = (window.localStorage && localStorage['todos']) || defaultData;
+  /* update from old version */
+  if (jsonData[0] == "[") { jsonData = defaultData }
+
+  window.viewModel = ko.mapping.fromJSON(jsonData, { "tasks": task.options });
 
   /* add a new task when you hit enter */
   viewModel.addTask = function (event) {
     var taskName = this.taskName();
     if (event.keyCode == '13' && taskName != "") {
-      this.tasks.push( task( taskName, false) );
+      var id = this.id();
+      this.id(id + 1);
+      this.tasks.push( task( { "parent": this.tasks, "data": { "id": id, "name": taskName, "isDone": false } } ) );
       this.taskName("");
     }
   };
@@ -150,10 +153,9 @@ window.page_init = function () {
      something changes.
    */
   viewModel.syncer = ko.dependentObservable(function () {
-    var state = ko.utils.arrayMap(this.tasks(), function (item) {
-      return { name: item.name(), isDone: item.isDone() };
-    });
-    localStorage['todos'] = JSON.stringify(state);
+    var data = ko.mapping.toJSON(viewModel);
+    log("syncer", data);
+    localStorage['todos'] = data;
   }, viewModel);
 
   ko.applyBindings(viewModel, $("#tasks")[0]);
