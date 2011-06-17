@@ -3,7 +3,7 @@ layout: default
 title: knockout todos
 ---
 
-<div type="text/html" class="hidden" id="tasksTemplate">
+<div type="text/html" class="hidden kotemplate" id="tasksTemplate">
   <div class="item">
     <div class="view" title="Double click to edit...">
       <input type="checkbox">
@@ -106,7 +106,7 @@ window.page_init = function () {
   });
 
   /* prebind the template places it in a script block so KO knows what to do */
-  $("#tasksTemplate").preBindTemplate();
+  $(".kotemplate").dataBindTemplate();
 
   /* initial state is an empty task list and an empty task string */
   viewModel.tasks = ko.observableArray(

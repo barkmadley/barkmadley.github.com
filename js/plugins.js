@@ -63,7 +63,7 @@ window.log = function(){
      it works around the fact that you cannot simply host a template inside a normal element
      since it won't have the text attribute that a script tag does.
      */
-    $['fn']['preBindTemplate'] = $['fn']['preBindTemplate'] || function () {
+    $['fn']['dataBindTemplate'] = $['fn']['dataBindTemplate'] || function () {
       /* don't return anything */
       this['each'](function () {
         var id   = $(this)['attr']('id');
