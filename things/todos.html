@@ -80,9 +80,6 @@ window.page_init = function () {
     "event": { "click": "clearCompleted" },
     "visible": "completed().length > 0"
   });
-  $("#tasks footer .count").dataBind({
-    "visible": "openTasks() > 0"
-  });
   $("#tasks footer span").dataBind({
     "text": "openTasks"
   });
