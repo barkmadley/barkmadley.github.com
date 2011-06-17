@@ -36,7 +36,7 @@ title: knockout todos
 
 /* just the way my pages work */
 /* page_init gets called after the library scripts get loaded */
-window.page_init = function () {
+window.page_init = function (window, undefined) {
 
   $("#tasks p input").dataBind({
     "value": "taskName",
@@ -80,7 +80,6 @@ window.page_init = function () {
   /* a class that represents tasks */
   function task(options){
     /* base properties */
-    log(options.parent);
     var task = ko.mapping.fromJS(options.data, { 'ignore': ["isEditing"] });
     /* behaviour properties */
 
@@ -150,9 +149,8 @@ NOTE: it is important that the view does not get re-rendered
      something changes.
    */
   viewModel.syncer = ko.dependentObservable(function () {
-    var data = ko.mapping.toJSON(viewModel);
-    log("syncer", data);
-    localStorage['todos'] = data;
+    log("syncer",
+    localStorage['todos'] = ko.mapping.toJSON(viewModel));
   }, viewModel);
 
   ko.applyBindings(viewModel, $("#tasks")[0]);
