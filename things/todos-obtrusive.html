@@ -1,0 +1,270 @@
+---
+layout: default
+title: knockout todos, obtrusive version
+---
+
+<script type="text/html" class="hidden kotemplate" id="tasksTemplate">
+  <div class="item"
+    data-bind="css: { done: isDone, editing: isEditing }, event: { dblclick: startEdit }">
+    <div class="view" title="Double click to edit...">
+      <input type="checkbox" data-bind="checked: isDone">
+      <span data-bind="text: name"></span>
+      <a class="destroy" data-bind="click: remove"></a>
+    </div>
+    <div class="edit">
+      <input type="text"
+        data-bind="value: name, event: { keyup: endEditEnter, blur: endEdit }" />
+    </div>
+  </div>
+</script>
+
+<div id="views">
+  <div id="tasks">
+    <h2><a
+        href="https://github.com/barkmadley/barkmadley.github.com/blob/master/things/todos-obtrusive.html"
+        title="view source" target="_blank">{{ page.title }}</a></h2>
+    <p>
+      <input id="addTaskInput" type="text" placeholder="What needs to be done?"
+        data-bind="value: taskName, event: { keyup: addTask }" />
+    </p>
+    <div class="items" data-bind="template: { name: 'tasksTemplate', foreach: tasks }"></div>
+    <footer>
+      <a class="clear" data-bind="click: clearCompleted, visible: completed().length > 0">Clear completed</a>
+      <div class="count"><span data-bind="text: openTasks">&nbsp;</span> left</div>
+    </footer>
+  </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+
+/* just the way my pages work */
+/* page_init gets called after the library scripts get loaded */
+window.page_init = function (window, undefined) {
+
+  /* a class that represents tasks */
+  function task(options){
+    /* base properties */
+    var task = ko.mapping.fromJS(options.data, { 'ignore': ["isEditing"] });
+    /* behaviour properties */
+
+    /* hide/show parts of the view
+NOTE: it is important that the view does not get re-rendered
+     */
+    task.isEditing = ko.observable(false);
+
+    task.remove = function (event) {
+      options.parent.mappedRemove({ "id": task.id });
+    };
+    task.startEdit = function (event) {
+      task.isEditing(true);
+      $(event.currentTarget).find(".edit input").focus();
+    };
+    task.endEdit = function () {
+      task.isEditing(false);
+    };
+    task.endEditEnter = function () {
+      event.keyCode == '13' && task.endEdit();
+    };
+    return task;
+  };
+  task.options = {
+    "key": function (data) { return ko.utils.unwrapObservable(data.id); },
+    "create": task
+  };
+
+  /* initial state is an empty task list and an empty task string, and id of 0 */
+  var defaultData = '{"tasks":[],"taskName":"","id":0}';
+  /* load from local storage if possible */
+  var jsonData = (window.localStorage && localStorage['todos']) || defaultData;
+  /* update from old version */
+  if (jsonData[0] == "[") { jsonData = defaultData }
+
+  window.viewModel = ko.mapping.fromJSON(jsonData, { "tasks": task.options });
+
+  /* add a new task when you hit enter */
+  viewModel.addTask = function (event) {
+    var taskName = this.taskName();
+    if (event.keyCode == '13' && taskName != "") {
+      var id = this.id();
+      this.id(id + 1);
+      this.tasks.push( task( { "parent": this.tasks, "data": { "id": id, "name": taskName, "isDone": false } } ) );
+      this.taskName("");
+    }
+  };
+
+  /* list of completed tasks */
+  viewModel.completed = ko.dependentObservable(function () {
+    return ko.utils.arrayFilter(this.tasks(), function(item) {
+      return item.isDone();
+    });
+  }, viewModel);
+
+  /* clear all the completed tasks, simple enough */
+  viewModel.clearCompleted = function (event) {
+    this.tasks.removeAll(this.completed());
+  };
+
+  /* the number of tasks that are not completed */
+  viewModel.openTasks = ko.dependentObservable(function () {
+    return this.tasks().length - this.completed().length;
+  }, viewModel);
+
+  /* this is a DO that looks at all relevant observables and saves when
+     something changes.
+   */
+  viewModel.syncer = ko.dependentObservable(function () {
+    log("syncer",
+    localStorage['todos'] = ko.mapping.toJSON(viewModel));
+  }, viewModel);
+
+  ko.applyBindings(viewModel, $("#tasks")[0]);
+};
+</script>
+
+<style>
+#views {
+  width: 520px;
+  margin: 0 auto 40px auto;
+  background: white;
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+
+  -moz-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+
+#tasks {
+  padding: 20px;
+}
+
+#tasks h1 {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 0 10px 0;
+}
+
+#tasks input[type="text"] {
+  width: 466px;
+  font-size: 24px;
+  font-family: inherit;
+  line-height: 1.4em;
+  border: 0;
+  outline: none;
+  padding: 6px;
+  border: 1px solid #999999;
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+
+#tasks input::-webkit-input-placeholder {
+  font-style: italic;
+}
+
+#tasks .items {
+  margin: 10px 0;
+  list-style: none;
+}
+
+#tasks .item {
+  padding: 15px 20px 15px 0;
+  position: relative;
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+}
+
+#tasks .item.done span {
+  color: #777777;
+  text-decoration: line-through;
+}
+
+#tasks .item .destroy {
+  position: absolute;
+  right: 10px;
+  top: 16px;
+  display: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url(/img/destroy.png) no-repeat center center;
+}
+
+#tasks .item:hover .destroy {
+  display: block;
+}
+
+#tasks .item .edit { display: none; }
+#tasks .item.editing .edit { display: block; }
+#tasks .item.editing .view { display: none; }
+
+#tasks footer {
+  display: block;
+  margin: 20px -20px -20px -20px;
+  overflow: hidden;
+
+  color: #555555;
+  background: #f4fce8;
+  border-top: 1px solid #ededed;
+  padding: 0 20px;
+  line-height: 36px;
+
+  -moz-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+}
+
+#tasks .clear {
+  display: block;
+  float: right;
+  line-height: 20px;
+  text-decoration: none;
+
+  background: rgba(0, 0, 0, 0.1);
+  color: #555555;
+  font-size: 11px;
+  margin-top: 8px;
+  padding: 0 10px 1px;
+
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+
+  cursor: pointer;
+}
+
+#tasks .clear:hover {
+  background: rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+}
+
+#tasks .clear:active {
+  position: relative;
+  top: 1px;
+}
+
+#tasks .count span {
+  font-weight: bold;
+}
+#tasks footer a {
+  margin-bottom: 7px;
+}
+</style>
+
