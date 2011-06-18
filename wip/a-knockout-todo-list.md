@@ -1,6 +1,6 @@
 ---
 layout: post
-title: a knockout js todo list
+title: a knockout todo list
 
 ---
 
