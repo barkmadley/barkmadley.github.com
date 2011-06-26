@@ -157,14 +157,14 @@ window.page_init = function() {
   function contact(options) {
     var contact = ko.mapping.fromJS(options.data);
 
-    contact.fullName = function() {
+    contact.fullName = ko.dependentObservable(function() {
       var fullName = contact.first_name() + " " + contact.last_name();
       if (fullName === " ") {
         return null;
       } else {
         return fullName;
       }
-    };
+    }, contact);
 
     return contact;
   }
@@ -175,8 +175,8 @@ window.page_init = function() {
       'key': function (item) {
         return unwrapField('id', item);
       },
-//      'create': contact
-    },
+      'create': contact
+    }
   };
 
   /* initial state */
@@ -257,6 +257,11 @@ window.page_init = function() {
     if (this.selectedContactIdx() === null) return;
     window.location = "mailto:" + this.selectedContact().email();
   };
+
+  viewModel.syncer = ko.dependentObservable(function() {
+    log("syncer",
+    localStorage['contacts'] = ko.mapping.toJSON(viewModel));
+  }, viewModel);
 
   ko.applyBindings(viewModel, $("#wrapper")[0]);
 };
