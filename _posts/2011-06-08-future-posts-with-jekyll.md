@@ -1,7 +1,6 @@
 ---
 layout: post
 title: future posts with jekyll
-categories: ['jekyll']
 data: |
   {% unless site.safe %} <!-- This is only true when run on github -->
   <header>
