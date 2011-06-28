@@ -6,8 +6,8 @@ title: hidden scrollbars are bad for usability
 
 {% assign desc1 = 'figure 1. lack of scrollbar' %}
 <figure>
-<a href="/img/scrollbars_1.png" title="{{desc1}}" rel="shadowbox[slideshow]">
-<img src="/img/scrollbars_1.png" alt="{{desc1}}" /></a>
+<a href="{% unless site.safe %}http://barkmadley.com{% endunless %}/img/scrollbars_1.png" title="{{desc1}}" rel="shadowbox[slideshow]">
+<img src="{% unless site.safe %}http://barkmadley.com{% endunless %}/img/scrollbars_1.png" alt="{{desc1}}" /></a>
 <figcaption>{{ desc1 }}</figcaption>
 </figure>
 
@@ -29,8 +29,8 @@ behaviour.
 
 {% assign desc2 = 'figure 2. added scrollbar' %}
 <figure>
-<a href="/img/scrollbars_2.png" title="{{desc2}}" rel="shadowbox[slideshow]">
-<img src="/img/scrollbars_2.png" alt="{{desc2}}" /></a>
+<a href="{% unless site.safe %}http://barkmadley.com{% endunless %}/img/scrollbars_2.png" title="{{desc2}}" rel="shadowbox[slideshow]">
+<img src="{% unless site.safe %}http://barkmadley.com{% endunless %}/img/scrollbars_2.png" alt="{{desc2}}" /></a>
 <figcaption>{{ desc2 }}</figcaption>
 </figure>
 
