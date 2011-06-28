@@ -61,6 +61,10 @@
   <script src="/js/libs/knockout.mapping-1.0.debug.js"></script>
   <script src="/js/libs/sb/shadowbox.js"></script>
 
+  {% for script in page.additional_scripts %}
+  <script src="{{script}}"></script>
+  {% endfor %}
+
   <!-- scripts concatenated and minified via ant build script-->
   <script src="/js/plugins.js?v=11"></script>
   <script>
