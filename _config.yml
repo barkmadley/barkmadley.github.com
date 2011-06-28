@@ -4,3 +4,4 @@ future: true
 markdown: rdiscount
 pygments: true
 exclude: build
+version: 12
