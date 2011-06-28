@@ -1,6 +1,7 @@
 ---
 layout: post
 title: a knockout contacts manager
+postclass: codepost
 
 ---
 
@@ -38,6 +39,8 @@ augment the structure with one dependentObservable which represents the fullname
 of the contact (and if neither the first nor the last name are set, we return
 null).
 
+<div class=clearfix></div>
+
 {% highlight javascript %}
 var mappingOptions = {
   'contacts': {
@@ -63,6 +66,8 @@ The style of this initialisation is primarily due to laziness and simplicity.
 The model itself is comprised of a filter string, a selected contact idenfier,
 an auto incrementing id, an editing boolean (which represents if we are in the
 editing state or not) and an initialy empty list of contacts.
+
+<div class=clearfix></div>
 
 The top level HTML for this demo is a bit longer than I normally like to put in
 a single code block, so I will split it and explain each part in turn. Both
@@ -102,6 +107,8 @@ functions for managing the state of the selectedContactIdx property (which
 should reflect the most recently clicked on contact, influencing which contact
 is being edited or viewed).
 
+<div class=clearfix></div>
+
 {% highlight javascript %}
 viewModel.newContact = function (event) {
   var blankContact = {
@@ -126,6 +133,8 @@ contacts array. The auto increment logic of the id property is handled here.
 After adding the contact to the list, we want to select the new contact, and
 also start editing it.
 
+<div class=clearfix></div>
+
 {% highlight javascript %}
 viewModel.filteredContacts = ko.dependentObservable(function () {
   var filter = this.filter();
@@ -145,6 +154,8 @@ applying the mapping. The filter is pretty simple to understand, only return
 contacts that contain the filter string in any of their string fields. The style
 of the code is very functional as that is my background.
 
+<div class=clearfix></div>
+
 {% highlight javascript %}
 viewModel.selectedContact = ko.dependentObservable(function () {
   return this.contacts()[this.contacts.mappedIndexOf({ id: this.selectedContactIdx() })];
@@ -156,6 +167,8 @@ dependent property. It uses a unique feature of the mapping plugin that extends
 observable arrays to be able to perform lookups of the index of a sub objects
 identity key. In this case we perform the lookup based on the id field of
 contact objects.
+
+<div class=clearfix></div>
 
 {% highlight javascript %}
 viewModel.isSelectedContact = function (idx) {
@@ -184,6 +197,8 @@ sidebar), so we have that option as well. These callbacks are implemented as
 functions that return functions because we want to preserve the id to use based
 on which contact is clicked.
 
+<div class=clearfix></div>
+
 {% highlight html %}
 <script type="text/html" id="contactsTemplate">
   <li class="item" data-bind="click: $item.selectContact(id()),
@@ -204,6 +219,8 @@ displays a contacts full name or the string 'No Name'. Other things are when to
 apply the particular CSS styles that transform the list item to mean different
 things, such as 'this is the currently selected contact', and 'there is no name
 associated with this contact'.
+
+<div class=clearfix></div>
 
 {% highlight html %}
 <div id="contacts" data-bind="css: { editing: editing, hidden: !selectedContact() }">
@@ -237,6 +254,8 @@ between the two working states, but also there is an email button (that will
 attempt to email the contact, which mirrors the functionality found in the spine
 example) and a delete button, which is only viewable when editing a contact.
 
+<div class=clearfix></div>
+
 {% highlight javascript %}
 viewModel.setEditing = function(v) {
   return function () {
@@ -251,6 +270,8 @@ because click handlers are evaluated when they are created, and then the result
 is evaluated once per click. This function returning a function style works with
 this behaviour, and since it is a closure, it will never forget what it should
 be putting in the editing observable.
+
+<div class=clearfix></div>
 
 {% highlight javascript %}
 viewModel.deleteContact = function (event) {
@@ -276,6 +297,8 @@ Then using the mappedRemove convenience function I then attempt to select the
 contact that took its place in the contacts list, or the previous one if we are
 at the end of the list. Also we should go out of editing mode so miss-clicks
 don't delete more than we needed.
+
+<div class=clearfix></div>
 
 {% highlight html %}
 <script type="text/html" id="contactTemplate">
@@ -309,9 +332,7 @@ don't delete more than we needed.
     <div data-bind="css: { empty: !notes() }, text: (notes() || 'Blank')"></div>
   </label>
 </script>
-{% endhighlight %}
 
-{% highlight html %}
 <script type="text/html" id="editContactTemplate">
   <label>
     <span>First name</span>
@@ -356,5 +377,6 @@ default value technique to avoid using if statements. I also found that using if
 statements directly in the templates didn't work very reliably, so I instead
 used the css binding to apply the hidden class where appropriate.
 
+<div class=clearfix></div>
 
 

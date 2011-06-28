@@ -1,6 +1,7 @@
 ---
 layout: post
 title: a knockout todo list
+postclass: codepost
 
 ---
 
@@ -59,6 +60,8 @@ specifies a callback that will be used to create each task. Before going into
 how each task looks and behaves lets see how the tasks array is manipulated by
 the viewModel and the corresponding html
 
+<div class="clearfix"></div>
+
 {% highlight html %}
 <div id="views">
   <div id="tasks">
@@ -96,6 +99,8 @@ get evaluated both when they are created, and also when the properties that they
 access are modified (see the MVVM pattern description
 [here](http://knockoutjs.com/documentation/dependentObservables.html))
 
+<div class="clearfix"></div>
+
 {% highlight javascript %}
 /* add a new task when you hit enter */
 viewModel.addTask = function (event) {
@@ -118,6 +123,8 @@ id so it is easier to identify the tasks (either to a server with a combination
 of user id/task id or just locally if there are more complex operations that
 will need to be performed later).
 
+<div class="clearfix"></div>
+
 {% highlight javascript %}
 /* list of completed tasks */
 viewModel.completed = ko.dependentObservable(function () {
@@ -130,6 +137,8 @@ viewModel.completed = ko.dependentObservable(function () {
 The completed list is a list of tasks that are flagged as done. Using the
 arrayFilter function to simplify the definition by abstracting the loop.
 
+<div class="clearfix"></div>
+
 {% highlight javascript %}
 /* the number of tasks that are not completed */
 viewModel.openTasks = ko.dependentObservable(function () {
@@ -139,6 +148,8 @@ viewModel.openTasks = ko.dependentObservable(function () {
 
 The openTasks number is merely the number of tasks - the number of completed
 tasks.
+
+<div class="clearfix"></div>
 
 {% highlight javascript %}
 /* clear all the completed tasks, simple enough */
@@ -150,6 +161,8 @@ viewModel.clearCompleted = function (event) {
 The clearCompleted callback simply removes all the tasks that are in the
 completed list. removeAll is a function on the ko.observableArray class, which
 is the type of the tasks property (created by the mapping plugin).
+
+<div class="clearfix"></div>
 
 {% highlight javascript %}
 /* this is a DO that looks at all relevant observables and saves when
@@ -168,6 +181,8 @@ everything will always be in sync.
 The way that templates work in ko is by using the jQuery template engine, and
 then modifying the template to enable the inner data-bind attributes to be
 processed after the template has been rendered.
+
+<div class="clearfix"></div>
 
 {% highlight html %}
 <script type="text/html" class="hidden kotemplate" id="tasksTemplate">
@@ -218,6 +233,8 @@ The data bindings are as follows:
 * Whether the edit div or the item div are shown at a given time is determined
   by the editing class in pure css.
 
+<div class="clearfix"></div>
+
 {% highlight javascript %}
 function task(options){
   /* base properties */
@@ -261,4 +278,6 @@ the
 One additional consequence of storing the entire viewModel in local storage is
 that it also stores the taskName and id properties, meaning that the textbox
 will be filled in with whatever state you left it in when you reload the page.
+
+<div class="clearfix"></div>
 
