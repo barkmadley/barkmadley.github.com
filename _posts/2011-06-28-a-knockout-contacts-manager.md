@@ -4,12 +4,14 @@ title: a knockout contacts manager
 
 ---
 
-As a follow up to my [previous post]() where I rewrote the [spine]() todo list
-demo into the knockout style, I decided to take a crack at one of the [other
-examples]() that is posted on the spine documentation site. Specifically the
-[CRUD Contacts](http://maccman.github.com/spine.contacts/) example.  I was also
-able to make a few enhancements to the example as some of the boundary
-interactions were not up to my personal standards of quality.
+As a follow up to my [previous post](/2011/06/19/a-knockout-todo-list.html)
+where I rewrote the [spine](http://maccman.github.com/spine/) todo list demo
+into the knockout style, I decided to take a crack at one of the [other
+examples](http://maccman.github.com/spine/#h-examples) that is posted on the
+spine documentation site. Specifically the [CRUD
+Contacts](http://maccman.github.com/spine.contacts/) example.  I was also able
+to make a few enhancements to the example as some of the boundary interactions
+were not up to my personal standards of quality.
 
 {% highlight javascript %}
 function contact(options) {
