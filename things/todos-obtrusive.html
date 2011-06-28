@@ -1,11 +1,12 @@
 ---
 layout: default
 title: knockout todos, obtrusive version
+additional_scripts: ['/js/libs/jquery-ui-1.8.13.custom.min.js']
 ---
 
 <script type="text/html" class="hidden kotemplate" id="tasksTemplate">
   <div class="item"
-    data-bind="css: { done: isDone, editing: isEditing }, event: { dblclick: startEdit }">
+    data-bind="css: { done: isDone, editing: isEditing }, event: { dblclick: startEdit }, sortableItem: $data">
     <div class="view" title="Double click to edit...">
       <input type="checkbox" data-bind="checked: isDone">
       <span data-bind="text: name"></span>
@@ -27,7 +28,7 @@ title: knockout todos, obtrusive version
       <input id="addTaskInput" type="text" placeholder="What needs to be done?"
         data-bind="value: taskName, event: { keyup: addTask }" />
     </p>
-    <div class="items" data-bind="template: { name: 'tasksTemplate', foreach: tasks }"></div>
+    <div class="items" data-bind="template: { name: 'tasksTemplate', foreach: tasks }, sortableList: tasks"></div>
     <footer>
       <a class="clear" data-bind="click: clearCompleted, visible: completed().length > 0">Clear completed</a>
       <div class="count"><span data-bind="text: openTasks">&nbsp;</span> left</div>
@@ -128,6 +129,10 @@ NOTE: it is important that the view does not get re-rendered
 </script>
 
 <style>
+body {
+  background: #EEE;
+}
+
 #views {
   width: 520px;
   margin: 0 auto 40px auto;
@@ -185,6 +190,7 @@ NOTE: it is important that the view does not get re-rendered
   position: relative;
   font-size: 24px;
   border-bottom: 1px solid #cccccc;
+  cursor: move;
 }
 
 #tasks .item.done span {
