@@ -57,9 +57,7 @@
   <script>window.jQuery || document.write("<script src='/js/libs/jquery-1.6.1.min.js'>\x3C/script>")</script>
   <script src="/js/libs/jquery.tmpl.js"></script>
   <script src="/js/libs/knockout-1.2.1.debug.js"></script>
-  <!--<script src="/js/libs/knockout-latest.debug.js"></script>-->
   <script src="/js/libs/knockout.mapping-1.0.debug.js"></script>
-  <script src="/js/libs/sb/shadowbox.js"></script>
 
   {% for script in page.scripts %}
   <script src="{{script}}"></script>
@@ -78,8 +76,10 @@ $(function () {
   if (window.page_init) {
     window.page_init(window);
   }
+  if (Shadowbox && Shadowbox.init) {
+    Shadowbox.init();
+  }
 });
-Shadowbox.init();
   </script>
   <!-- end scripts-->
 
