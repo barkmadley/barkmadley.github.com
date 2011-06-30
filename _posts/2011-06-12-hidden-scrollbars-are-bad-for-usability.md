@@ -3,6 +3,8 @@ layout: post
 title: hidden scrollbars are bad for usability
 scripts:
 - /js/libs/sb/shadowbox.js
+stylesheets:
+- /js/libs/sb/shadowbox.css
 
 ---
 

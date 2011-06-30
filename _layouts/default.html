@@ -32,7 +32,9 @@
   <link rel="stylesheet" href="/css/pygments.css?v={{site.version}}">
   {% endif %}
   <link rel="stylesheet" href="/css/html5end.css?v={{site.version}}">
-  <link rel="stylesheet" href="/js/libs/sb/shadowbox.css">
+  {% for stylesheet in page.stylesheets %}
+  <link rel="stylesheet" href="{{stylesheet}}">
+  {% endfor %}
 
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="/css/handheld.css?v={{site.version}}">  -->
