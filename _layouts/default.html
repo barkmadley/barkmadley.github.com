@@ -16,6 +16,9 @@
   <meta name="description" content="{{ page.description }}">
   {% endif %}
   <meta name="author" content="Mark Bradley">
+  {% if page.feed %}
+  <link rel="alternate" type="application/rss+xml" href="{{ page.feed }}"/>
+  {% endif %}
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,16 +60,14 @@
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
   <script>window.jQuery || document.write("<script src='/js/libs/jquery-1.6.1.min.js'>\x3C/script>")</script>
-  <script src="/js/libs/jquery.tmpl.js"></script>
-  <script src="/js/libs/knockout-1.2.1.debug.js"></script>
-  <script src="/js/libs/knockout.mapping-1.0.debug.js"></script>
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script src="/js/plugins.js?v={{site.version}}"></script>
 
   {% for script in page.scripts %}
   <script src="{{script}}"></script>
   {% endfor %}
 
-  <!-- scripts concatenated and minified via ant build script-->
-  <script src="/js/plugins.js?v={{site.version}}"></script>
   <script>
 /* Author: Mark Bradley
  * no point in putting this in a seperate file when its so small.
@@ -78,7 +79,7 @@ $(function () {
   if (window.page_init) {
     window.page_init(window);
   }
-  if (Shadowbox && Shadowbox.init) {
+  if (window.Shadowbox && Shadowbox.init) {
     Shadowbox.init();
   }
 });
