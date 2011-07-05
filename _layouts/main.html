@@ -3,6 +3,17 @@ layout: default
 css: true
 ---
 
+<script>
+/* flattr v0.6 javascript api */
+(function() {
+  var s = document.createElement('script'),
+      t = document.getElementsByTagName('script')[0];
+  s.async = true;
+  s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto&button=compact&language=en_GB';
+  t.parentNode.insertBefore(s, t);
+})();
+</script>
+
 <header>
   <h1>bark&shy;madley</h1>
   <h3>
@@ -15,4 +26,15 @@ css: true
 </header>
 
 {{ content }}
+
+<footer>
+{% if page.description %}
+<a class="FlattrButton" style="display:none;"
+    data-flattr-uid="barkmadley"
+    title="{{ page.title }}"
+    href="http://barkmadley.com{{ page.url }}">
+  {{ page.description }}
+</a>
+{% endif %}
+</footer>
 

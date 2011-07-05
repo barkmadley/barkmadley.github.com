@@ -2,6 +2,9 @@
 layout: post
 title: a knockout contacts manager
 postclass: codepost
+description: |
+  A blog post explaining how to use the knockout javascript library to create a
+  contacts management app that is backed by local storage.
 
 ---
 
