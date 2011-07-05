@@ -2,6 +2,9 @@
 layout: post
 title: a knockout todo list
 postclass: codepost
+description: |
+  A blog post explaining how to use the knockout javascript library to create a
+  todo list app that is backed by local storage.
 
 ---
 
