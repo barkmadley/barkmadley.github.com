@@ -23,23 +23,25 @@ description: |
 
 ---
 
-Since I created a [jekyll](https://github.com/mojombo/jekyll/) based website
-that will contain all my future postings I started thinking about how I would
-handle the scenario whereby I would like to write now, but publish later. This
-capability would allow me to queue up some posts quickly, but spread out the
-publishing time to make it look like I have been writing on a consistent
-timeline. While this may be similar to lying, I think that at the very least it
-would be an intellectual exercise to come up with a capable scheme to accomplish
-this goal, especially since all the major publishing platforms allow this
-functionality.
+Since I created a [jekyll][] based website that will contain all my future
+postings I started thinking about how I would handle the scenario whereby I
+would like to write now, but publish later. This capability would allow me to
+queue up some posts quickly, but spread out the publishing time to make it look
+like I have been writing on a consistent timeline. While this may be similar to
+lying, I think that at the very least it would be an intellectual exercise to
+come up with a capable scheme to accomplish this goal, especially since all the
+major publishing platforms allow this functionality.
 
-I did consider just using the
-[future](https://github.com/mojombo/jekyll/wiki/Configuration) setting that is
-baked into jekyll, however this presented a few limitations and extra work on my
-part to make it work in a seemless manner (I would have to do needless commits
-anyway since github only regenerates the site when you push a commit). I figured
-I might learn some more of the intricacies of git, as well as make something a
-little bit more flexible.
+[jekyll]: https://github.com/mojombo/jekyll/
+
+I did consider just using the [future][] setting that is baked into jekyll,
+however this presented a few limitations and extra work on my part to make it
+work in a seemless manner (I would have to do needless commits anyway since
+github only regenerates the site when you push a commit). I figured I might
+learn some more of the intricacies of git, as well as make something a little
+bit more flexible.
+
+[future]: https://github.com/mojombo/jekyll/wiki/Configuration
 
 The overall design is to have two main branches, the master branch which is what
 github uses as the base for the jekyll build, and the work in progress branch
@@ -47,11 +49,12 @@ which I keep locally and it holds the ideas I have for future posts. When a post
 has been fully baked I will pick a date and move it to it's own branch, which
 will be named based on the date I pick to publish it.
 
-I created a rake task in my
-[rakefile](https://github.com/barkmadley/barkmadley.github.com/blob/master/Rakefile)
-that simplifies the steps that are required to create the dated branch. This
-will slurp a file from the wip folder (only available on the wip branch) and
-create a new branch based on a date that is passed in as an argument.
+I created a rake task in my [rakefile][] that simplifies the steps that are
+required to create the dated branch. This will slurp a file from the wip folder
+(only available on the wip branch) and create a new branch based on a date that
+is passed in as an argument.
+
+[rakefile]: https://github.com/barkmadley/barkmadley.github.com/blob/master/Rakefile
 
 {% highlight ruby %}
 desc 'create a new branch (from master) with a new post in it'
@@ -62,12 +65,12 @@ task :post, [:date,:name] do |t, args|
   content = %x[cat wip/#{args.name}.md]
   sh "git checkout master"
   sh "git checkout -b #{date}"
-  subbed_name = name.gsub(/[^a-zA-Z0-9]+/,"-")
-  post_name = "_posts/#{date}-#{subbed_name}.md"
-  f = File.new(post_name, "w")
+  subbedname = name.gsub(/[^a-zA-Z0-9]+/,"-")
+  postname = "_posts/#{date}-#{subbedname}.md"
+  f = File.new(postname, "w")
   f.write(content)
   f.close
-  sh "git add #{post_name}"
+  sh "git add #{postname}"
   sh "git commit" # this will open the commit vim instance
 end
 {% endhighlight %}

@@ -13,10 +13,12 @@ The problem of FizzBuzz
 
 The FizzBuzz problem has been written about extensively many times before, most
 commonly as a way to exspanss the failure of the majority of programmers
-applying for jobs
-[to](href="http://www.codinghorror.com/blog/archives/000781.html)
-[grok](http://imranontech.com/2007/01/24/using-fizzbuzz-to-find-developers-who-grok-coding/)
-[it](http://weblog.raganwald.com/2007/01/dont-overthink-fizzbuzz.html).
+applying for jobs [to][fizzbuzz codinghorror] [grok][fizzbuzz imran]
+[it][fizzbuzz raganwald].
+
+[fizzbuzz codinghorror]: http://www.codinghorror.com/blog/archives/000781.html
+[fizzbuzz imran]: http://imranontech.com/2007/01/24/using-fizzbuzz-to-find-developers-who-grok-coding/
+[fizzbuzz raganwald]: http://weblog.raganwald.com/2007/01/dont-overthink-fizzbuzz.html
 
 The problem itself is as follows
 
@@ -42,7 +44,7 @@ fizzbuzz n = if fizz n && buzz n then "FizzBuzz" else
     if fizz n then "Fizz" else
         if buzz n then "Buzz" else show n
 main :: IO ()
-main = mapM_ (putStrLn . fizzbuzz) [1..100]
+main = mapM (putStrLn . fizzbuzz) [1..100] >> return ()
 {% endhighlight %}
 
 The main problem I have with this implementation is that it doesn't compose the fizz and buzz functions very well into a coherent fizzbuzz. It is very imperative, in that it checks a, then b, then c etc. If you think that this approach will suffice then you don't have to continue reading, but I do have more to say.
@@ -50,22 +52,24 @@ The main problem I have with this implementation is that it doesn't compose the 
 Monoids
 -------
 Monoids have been getting a lot of blog attention very recently because of an
-article [Brian
-Hurt](http://enfranchisedmind.com/blog/2009/01/16/on-monoids-and-metaphor-shear/)
-wrote about his thoughts on Haskell, which included a contraversial statement
-about monoids, so
-[everyone](http://sigfpe.blogspot.com/2009/01/haskell-monoids-and-their-uses.html)
-and [there](http://apfelmus.nfshost.com/monoid-fingertree.html)
-[mum](http://sigfpe.blogspot.com/2009/01/fast-incremental-regular-expression.html)
-decided to write about them. I am adding to the hysteria even though it is a
-dead horse, except that my goal is merely to solidify their usefulness in my
-mind by applying monoids to a not so practical application.
+article [Brian Hurt][] wrote about his thoughts on Haskell, which included a
+contraversial statement about monoids, so [everyone][sigfpe] and
+[their][apfelmus] [mum][sigfpe2] decided to write about them. I am adding to the
+hysteria even though it is a dead horse, except that my goal is merely to
+solidify their usefulness in my mind by applying monoids to a not so practical
+application.
+
+[brian hurt]: http://enfranchisedmind.com/blog/2009/01/16/on-monoids-and-metaphor-shear/
+[sigfpe]: http://sigfpe.blogspot.com/2009/01/haskell-monoids-and-their-uses.html
+[apfelmus]: http://apfelmus.nfshost.com/monoid-fingertree.html
+[sigfpe2]: http://sigfpe.blogspot.com/2009/01/fast-incremental-regular-expression.html
 
 So what is a monoid? Briefly a monoid is a way to accumulate results together
 into a whole result. Any data type that wants to become a monoid must support
 two operations, empty and append, and follow 3 laws (not strictly speaking but
-it is prefered), these are written about
-[here](http://sigfpe.blogspot.com/2009/01/haskell-monoids-and-their-uses.html).
+it is prefered), these are written about [here][sigfpe3].
+
+[sigfpe3]: http://sigfpe.blogspot.com/2009/01/haskell-monoids-and-their-uses.html
 
 The reason I thought of fizzbuzz and monoids in the same thought was the
 realisation that the fizzbuzz function should be a composition of the fizz and
@@ -145,7 +149,7 @@ applyfizzbuzz :: Num a => a -> String
 applyfizzbuzz n = maybe (show n) id (fizzbuzz n)
 
 main :: IO ()
-main = mapM_ (putStrLn . applyfizzbuzz) [1..100]
+main = mapM (putStrLn . applyfizzbuzz) [1..100] >> return ()
 {% endhighlight %}
 
 Where mconcat is defined as a sequential application of mappend and the next element in the list. Personally I think that this code is easier to read than the original version, while at the same time making it easy to add new conditions, for example if the problem was extended to include a check for numbers that were divisible by 7 (and print "Elfs"), the code would only been to be changed on two lines like so:

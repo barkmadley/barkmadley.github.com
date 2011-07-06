@@ -8,36 +8,44 @@ description: |
 
 ---
 
-A few nights ago I was hanging around the [knockoutjs mailing
-list](http://groups.google.com/group/knockoutjs?lnk=srg) when I came across a
-piece of [example code](https://github.com/sharpoverride/TodoListKnockoutJS)
-that I noticed was in desperate need of repair. The author also claims that he
-is only learning, but sometimes I scratch my own itch just because I can.
+A few nights ago I was hanging around the [knockoutjs mailing list][forum] when
+I came across a piece of [example code][ko example] that I noticed was in
+desperate need of repair. The author also claims that he is only learning, but
+sometimes I scratch my own itch just because I can.
 
-The original code is based on the [spine](http://maccman.github.com/spine/)
-[example](http://maccman.github.com/spine/#h-examples) [todo list
-application](https://github.com/maccman/spine.todos) which uses browser local
-storage to implement it's backend. (Also note that [the
-design](http://localtodos.com/) was originally done by [Jerome
-Gravel-Niquet](http://jqn.me) for the
-[backbone](http://documentcloud.github.com/backbone/) javascript library)
+[forum]: http://groups.google.com/group/knockoutjs?lnk=srg
+[ko example]: https://github.com/sharpoverride/TodoListKnockoutJS
 
-I have two versions which I am proud of now, one using [unobtrusive data
-binding](http://joel.net/wordpress/index.php/2011/06/unobtrusive-data-binding-for-knockout-js/)
-along with a
-[hack](https://github.com/barkmadley/barkmadley.github.com/commit/e840637ea46e7a08a67f868529d143bbae650be9#L1L61)
-to be able to unobtrusively modify template code. The other version using that
-simply sprinkles data-bind attributes on the html itself, as I personally perfer
-this method I will use it as my canonical example of how a knockoutjs app should
-work.
+The original code is based on the [spine][] [example][spine examples]
+[todo list application][spine todo] which uses browser local storage to
+implement it's backend. (Also note that [the design][] was originally done by
+[Jerome Gravel-Niquet][jqn] for the [backbone][] javascript library)
+
+[spine]: http://maccman.github.com/spine/
+[spine examples]: http://maccman.github.com/spine/#h-examples
+[spine todo]: https://github.com/maccman/spine.todos
+[the design]: http://localtodos.com/
+[jqn]: http://jqn.me
+[backbone]: http://documentcloud.github.com/backbone/
+
+I have two versions which I am proud of now, one using [unobtrusive][] data
+binding along with a [hack][] to be able to unobtrusively modify template code.
+The other version using that simply sprinkles data-bind attributes on the html
+itself, as I personally perfer this method I will use it as my canonical example
+of how a knockoutjs app should work.
+
+[unobtrusive]: http://joel.net/wordpress/index.php/2011/06/unobtrusive-data-binding-for-knockout-js/
+[hack]: https://github.com/barkmadley/barkmadley.github.com/commit/e840637ea46e7a08a67f868529d143bbae650be9#L1L61
 
 my example
 ----------
 
 The javascript starts by creating a viewModel object that is the basis for all
 data and interaction found on the page. This is done by local storage to load the
-initial state and then using the [mapping plugin](http://knockoutjs.com/documentation/plugins-mapping.html)
-to automatically create the viewModel fields we are interested in.
+initial state and then using the [mapping plugin][] to automatically create the
+viewModel fields we are interested in.
+
+[mapping plugin]: http://knockoutjs.com/documentation/plugins-mapping.html
 
 {% highlight javascript %}
 function task(options) {
@@ -100,7 +108,9 @@ yet so lets look at their definition. Some of them are merely attaching the
 callback functions to the viewModel, others are dependentObservables, which will
 get evaluated both when they are created, and also when the properties that they
 access are modified (see the MVVM pattern description
-[here](http://knockoutjs.com/documentation/dependentObservables.html))
+[here][mvvm])
+
+[mvvm]: http://knockoutjs.com/documentation/dependentObservables.html
 
 <div class="clearfix"></div>
 
@@ -208,10 +218,10 @@ The tasksTemplate gets rendered for each task in the tasks list as noted above,
 and also the properties that it references are properties of the task object,
 not the viewModel object. To access the task object itself you can use the $data
 variable. In order to access the tasks list or the viewModel object you will
-need to add them to the
-[templateOptions](http://knockoutjs.com/documentation/template-binding.html#note_6_passing_additional_data_to_your_template_using_)
-property when you specify the template, template options are placed on the $item
-variable.
+need to add them to the [templateOptions][template options] property when you
+specify the template, template options are placed on the $item variable.
+
+[template options]: http://knockoutjs.com/documentation/template-binding.html#note_6_passing_additional_data_to_your_template_using_
 
 The data bindings are as follows:
 
@@ -274,13 +284,14 @@ remove callback, which accesses the tasks array (which is the parent of each tas
 according to the mapping plugin). It will remove the current task based on it's
 id using a mapping plugin extension for simplicity.
 
-I am very happy with how this turned out and you can [try
-it](http://barkmadley.com/things/todos-obtrusive.html) for yourself, and view
-the
-[source](https://github.com/barkmadley/barkmadley.github.com/blob/master/things/todos-obtrusive.html).
-One additional consequence of storing the entire viewModel in local storage is
-that it also stores the taskName and id properties, meaning that the textbox
-will be filled in with whatever state you left it in when you reload the page.
+I am very happy with how this turned out and you can [try it][] for yourself,
+and view the [source][]. One additional consequence of storing the entire
+viewModel in local storage is that it also stores the taskName and id
+properties, meaning that the textbox will be filled in with whatever state you
+left it in when you reload the page.
+
+[try it]: http://barkmadley.com/things/todos-obtrusive.html
+[source]: https://github.com/barkmadley/barkmadley.github.com/blob/master/things/todos-obtrusive.html
 
 <div class="clearfix"></div>
 

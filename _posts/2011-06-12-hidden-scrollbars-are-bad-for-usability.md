@@ -59,5 +59,7 @@ ourselves from falling into this usability trap? By simply not allowing any
 element that will scroll on the x-axis to be taller than the y-axis. For many
 applications this is not feasible. It might even be worth attempting to find a
 way to implement this using purely javascript. I shall have to dedicate some
-time to creating an example in my [things page](/things/).
+time to creating an example in my [things][] page.
+
+[things]: /things/
 

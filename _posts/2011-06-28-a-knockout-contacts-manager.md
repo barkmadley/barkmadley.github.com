@@ -8,14 +8,17 @@ description: |
 
 ---
 
-As a follow up to my [previous post](/2011/06/19/a-knockout-todo-list.html)
-where I rewrote the [spine](http://maccman.github.com/spine/) todo list demo
-into the knockout style, I decided to take a crack at one of the [other
-examples](http://maccman.github.com/spine/#h-examples) that is posted on the
-spine documentation site. Specifically the [CRUD
-Contacts](http://maccman.github.com/spine.contacts/) example.  I was also able
-to make a few enhancements to the example as some of the boundary interactions
-were not up to my personal standards of quality.
+As a follow up to my [previous post][previous] where I rewrote the [spine][]
+todo list demo into the knockout style, I decided to take a crack at one of the
+[other examples][] that is posted on the spine documentation site. Specifically
+the [CRUD Contacts][contacts] example.  I was also able to make a few
+enhancements to the example as some of the boundary interactions were not up to
+my personal standards of quality.
+
+[previous]: /2011/06/19/a-knockout-todo-list.html
+[spine]: http://maccman.github.com/spine/
+[other examples]: http://maccman.github.com/spine/#h-examples
+[contacts]: http://maccman.github.com/spine.contacts/
 
 {% highlight javascript %}
 function contact(options) {
@@ -379,6 +382,12 @@ the contacts data structure. For brevity in the show template I am using the
 default value technique to avoid using if statements. I also found that using if
 statements directly in the templates didn't work very reliably, so I instead
 used the css binding to apply the hidden class where appropriate.
+
+I am very happy with how this turned out and you can [try it][] for yourself,
+and view the [source][].
+
+[try it]: http://barkmadley.com/things/contacts.html
+[source]: https://github.com/barkmadley/barkmadley.github.com/blob/master/things/contacts.html
 
 <div class=clearfix></div>
 
