@@ -17,6 +17,10 @@ data: |
   </ul>
   {% endunless %}
 
+description: |
+  A post describing how I setup a custom scheme for scheduling when posts will
+  appear on my jekyll and github backed blog.
+
 ---
 
 Since I created a [jekyll](https://github.com/mojombo/jekyll/) based website

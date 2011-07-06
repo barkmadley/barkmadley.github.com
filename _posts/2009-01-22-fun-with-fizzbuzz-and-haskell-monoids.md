@@ -1,6 +1,9 @@
 ---
 layout: post
 title: fun with fizzbuzz and haskells monoids
+description: |
+  A simple implementation of the FizzBuzz toy problem that is also extensible
+  using a aggregation abstraction known as Monoids.
 
 ---
 In this short article I will be exploring FizzBuzz, and showing how the monoidal approach helps combine the logic of the problem in a reasonable way when compared to the naive solution.

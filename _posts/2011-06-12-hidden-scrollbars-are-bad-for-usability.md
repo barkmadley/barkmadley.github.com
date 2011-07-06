@@ -5,6 +5,9 @@ scripts:
 - /js/libs/sb/shadowbox.js
 stylesheets:
 - /js/libs/sb/shadowbox.css
+description: |
+  A post describing why scrollbars that affect what you can see on a web page,
+  but which are themselves hidden are a usability hazzard.
 
 ---
 

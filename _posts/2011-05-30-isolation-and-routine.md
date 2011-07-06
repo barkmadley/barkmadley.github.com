@@ -1,6 +1,10 @@
 ---
 layout: post
 title: isolation and routine
+description: |
+  The internet went out for a night so I decided to write a blog and create some
+  useful content for the world.
+
 ---
 
 Our internet went out last night. Right in the middle of trying to figure out

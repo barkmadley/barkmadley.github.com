@@ -1,6 +1,10 @@
 ---
 layout: post
 title: bridging shell and make
+description: |
+  A post outlining how to bring Makefile key value argument handling to bash
+  scripting in a reliable way.
+
 ---
 
 Recently at work I was tasked with updating our build system to be more stable
