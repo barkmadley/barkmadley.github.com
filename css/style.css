@@ -5,12 +5,14 @@
  */
 
 html {
+  background-color: #F8F8F8;
   background-image: url(/img/29-b.png), url(/img/37-b.png), url(/img/53-b.png);
   padding: 10px 0;
+  color: #CCC;
 }
 
 body {
-  background: white;
+  background-color: inherit;
 }
 
 #body {
@@ -53,7 +55,7 @@ px      68    160    252    344    436    528    620    712    804    896    */
   padding: 48px;
   /*original*/
   /*padding: 72px 48px 84px;*/
-  color: rgb(60,60,60);
+  /*color: rgb(60,60,60);*/
   -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
 }
 
