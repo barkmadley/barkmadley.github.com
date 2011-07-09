@@ -41,6 +41,9 @@
     /* unimplemented getters and setters */
     that.get = get || function() { throw "unsettable"; };
     that.set = set || function() { throw "ungettable"; };
+
+    /* this is for checking mixin type dependencies */
+    that.types = {};
     return that;
   }
 
@@ -50,7 +53,7 @@
     var my = {};
     my.value = value;
 
-    return base(
+    var that = base(
       function() {
         return my.value;
       },
@@ -58,6 +61,9 @@
         return my.value = newvalue;
       }
     );
+
+    that.types['container'] = true;;
+    return that;
   }
 
   /* a subscribable object is one that maintains a list of subscribers and
@@ -90,6 +96,7 @@
       }
     );
 
+    that.types['subscribable'] = true;
     return that;
   }
 
@@ -121,6 +128,7 @@
       return result;
     });
 
+    that.types['dependable'] = true;
     return that;
   }
 
@@ -131,7 +139,9 @@
    *        of a value
    */
   function observable(value) {
-    return dependable(subscribable(container(value)));
+    var that = dependable(subscribable(container(value)));
+    that.types['observable'] = true;
+    return that;
   }
 
   /* a pausable wrapping constructor
@@ -162,6 +172,7 @@
       paused(false);
     };
 
+    that.types['pausable'] = true;
     return that;
   }
 
@@ -183,10 +194,14 @@
       my.value = that.get();
     };
 
+    that.types['protectable'] = true;
     return that;
   }
 
   function dependent(that) {
+    if (that.types['depender']) {
+      throw "Cannot make a dependent out of a depender, switch them around";
+    }
     /* that needs to be subscribable */
     var my = {};
 
@@ -225,6 +240,7 @@
       return my.value;
     });
 
+    that.types['dependent'] = true;
     return dependable(that);
   }
 
@@ -243,6 +259,8 @@
       my.get,
       my.set
     )));
+
+    that.types['dependentObservable'] = true;
 
     that.get();
 
