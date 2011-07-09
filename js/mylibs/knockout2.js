@@ -131,9 +131,7 @@
    *        of a value
    */
   function observable(value) {
-    var that;
-    that = dependable(subscribable(container(value)));
-    return that;
+    return dependable(subscribable(container(value)));
   }
 
   /* a pausable wrapping constructor
@@ -227,7 +225,7 @@
       return my.value;
     });
 
-    return that;
+    return dependable(that);
   }
 
   /* the typical dependentObservable
@@ -241,10 +239,10 @@
     my.set = o.set;
 
     /* dependent needs to be before dependable so it doesn't depend on itself */
-    that = dependable(dependent(subscribable(base(
+    that = dependent(subscribable(base(
       my.get,
       my.set
-    ))));
+    )));
 
     that.get();
 
