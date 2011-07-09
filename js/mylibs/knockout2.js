@@ -26,14 +26,11 @@
     return that
   }
 
-  /* the basic container object.
-   * Has a get/set function, and is itself a convenience functon that calls
+  /* Has a get/set function, and is itself a convenience functon that calls
    * get/set depending on the number of arguments */
-  function container(value, o) {
+  function base(get, set) {
     var that,
         my = {};
-    my.value = value;
-
     /* the basic get/set function depending on argument length */
     that = function() {
       if (arguments.length > 0 && that.set) {
@@ -41,16 +38,26 @@
       }
       return that.get();
     };
-
-    that.get = (o && o.get) || function() {
-      return my.value;
-    };
-
-    that.set = (o && o.set) || function(value) {
-      return my.value = value;
-    };
-
+    /* unimplemented getters and setters */
+    that.get = get || function() { throw "unsettable"; };
+    that.set = set || function() { throw "ungettable"; };
     return that;
+  }
+
+  /* the basic container object.
+   */
+  function container(value) {
+    var my = {};
+    my.value = value;
+
+    return base(
+      function() {
+        return my.value;
+      },
+      function(newvalue) {
+        return my.value = newvalue;
+      }
+    );
   }
 
   /* a subscribable object is one that maintains a list of subscribers and
@@ -88,12 +95,22 @@
 
   /* these are for maintaining the dependency tracking code */
   var dependencies = [];
+
+  /* make the last dependency monitor depend on a particular subscribable */
   function dependOn(item) {
     var currentDependencies = _.last(dependencies);
     if (currentDependencies) {
       currentDependencies.push(item);
     }
   }
+
+  /* a consumer of the dependency tracking code */
+  function dependentsOf(callback, context) {
+    dependencies.push([]);
+    callback.call(context);
+    return _.unique(dependencies.pop());
+  }
+
 
   /* a wrapping mixin that will cause a call to get to make the parent depend on
    * this object */
@@ -103,18 +120,6 @@
       dependOn(that);
       return result;
     });
-
-    return that;
-  }
-
-  /* a consumer of the dependency tracking code */
-  function depender(that) {
-
-    that.dependents = function(callback, context) {
-      dependencies.push([]);
-      callback.call(context);
-      return _.unique(dependencies.pop());
-    };
 
     return that;
   }
@@ -183,18 +188,13 @@
     return that;
   }
 
-  /* the typical dependentObservable
-   * This logic can be tricky.
-   */
-  function dependentObservable(o, context) {
-    var that,
-        my = {};
-
-    my.get = (o.get || o).bind(context || this);
-    my.set = (o.set || function() { throw "Not settable"; });
+  function dependent(that) {
+    /* that needs to be subscribable */
+    var my = {};
 
     my.subscriptions = [];
     my.value = undefined;
+    /* we don't want to depend on this */
     my.dirty = subscribable(container(true));
 
     my.dirty.subscribe(function(value) {
@@ -204,39 +204,49 @@
       }
     });
 
-    my.evaluate = function() {
-      /* dispose the subscriptions i setup earlier (see below) */
-      _.each(my.subscriptions, function(sub) {
-        sub.dispose();
-      });
+    that.get = _.wrap(that.get, function(orig) {
+      if (my.dirty()) {
+        /* dispose the subscriptions i setup earlier (see below) */
+        _.each(my.subscriptions, function(sub) {
+          sub.dispose();
+        });
 
-      /* evaluate the sub get function while tracking dependencies */
-      var deps = that.dependents(function () {
-        my.value = my.get();
-      });
+        /* evaluate the sub get function while tracking dependencies */
+        var deps = dependentsOf(function () {
+          my.value = orig();
+        });
 
-      /* subscribe to all dependencies */
-      my.subscriptions = _.map(deps, function (dep) {
-        /* create a new function every time since they will get disposed */
-        return dep.subscribe(function() { my.dirty(true); });
-      });
+        /* subscribe to all dependencies */
+        my.subscriptions = _.map(deps, function (dep) {
+          /* create a new function every time since they will get disposed */
+          return dep.subscribe(function() { my.dirty(true); });
+        });
 
-      my.dirty(false);
-    };
-
-    that = container(undefined, {
-      get: function() {
-        if (my.dirty()) {
-          my.evaluate();
-        }
-        return my.value;
-      },
-      set: my.set
+        my.dirty(false);
+      }
+      return my.value;
     });
 
-    that = depender(dependable(subscribable(that)));
+    return that;
+  }
 
-    my.evaluate();
+  /* the typical dependentObservable
+   * This logic can be tricky.
+   */
+  function dependentObservable(o, context) {
+    var that,
+        my = {};
+
+    my.get = (o.get || o).bind(context || o.owner || this);
+    my.set = o.set;
+
+    /* dependent needs to be before dependable so it doesn't depend on itself */
+    that = dependable(dependent(subscribable(base(
+      my.get,
+      my.set
+    ))));
+
+    that.get();
 
     return that;
   }
