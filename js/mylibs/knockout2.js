@@ -259,7 +259,7 @@ function dependentObservable(o, context) {
   that = dependable(dependent(subscribable(base(
     my.get,
     my.set
-    ))));
+  ))));
 
   that.types['dependentObservable'] = true;
 
