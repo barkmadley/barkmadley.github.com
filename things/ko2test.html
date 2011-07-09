@@ -1,0 +1,39 @@
+---
+layout: default
+title: test
+scripts:
+- /js/libs/underscore-1.1.6.js
+- /js/mylibs/knockout2.js
+---
+
+<script>
+window.page_init = function () {
+  log("_", _);
+  log("ko", ko);
+
+  var x = ko.observable(1);
+  log("x()", x());
+  var y = x.subscribe(function() {
+    log("x.subscribe: x = ", x());
+  });
+  x(5);
+  log(x());
+  var z = ko.dependentObservable(function() {
+    var r = x();
+    log("z dependency x = ", r);
+    return 1 + r;
+  });
+  var w = ko.dependentObservable(function() {
+    var r = z();
+    log("w dependency z = ", r);
+    return r;
+  });
+  log("z",z());
+  x(4);
+  log("z",z());
+  x(3);
+  log("z",z());
+  x(2);
+  log("w",w());
+};
+</script>
