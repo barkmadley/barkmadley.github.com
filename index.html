@@ -49,7 +49,7 @@ function random_pick(array, number) {
   } else {
     for (var i = 0; i < number; i++) {
       var ran_number = Math.floor(Math.random()*num);
-      add_index(random_indices, ran_number);
+      add_index(ran_number);
     }
   }
   random_indices.sort();
