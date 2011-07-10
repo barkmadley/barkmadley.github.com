@@ -82,6 +82,18 @@ px      68    160    252    344    436    528    620    712    804    896    988
     float: right;
   }
 
+  .half {
+    width: 528px;
+  }
+
+  .left {
+    float:left;
+  }
+
+  .right {
+    float:right;
+  }
+
 }
 
 
