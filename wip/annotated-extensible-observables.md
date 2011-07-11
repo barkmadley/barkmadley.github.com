@@ -2,6 +2,10 @@
 layout: post
 title: annotated extensible observables
 postclass: codepost
+description: |
+  An annotated overview of the code behind a model for extensible observables
+  that mimic the behaviour of knockout observables, but are what I consider to
+  be cleanly implemented.
 
 ---
 
@@ -372,9 +376,11 @@ function dependentObservable(o, context) {
 
 A `dependentObservable` is similarly simple in concept, but the interface given
 by knockout can be slightly confusing. You can call the constructor with either,
-a single read only function, a single read only function with a `context`
-parameter, an object with a `get` field, an object with a `get` and a `set`
-field, an object with `get`, `set` and `owner` fields, any of the previously
+a single read only function (`dO(function(){ ... })`), a single read only
+function with a `context` parameter (`dO(function(){ ... }, this)`) an object
+with a `get` field (`dO({ get: function() { ... } })`), an object with a `get`
+and a `set` field (`dO({ get: function() { ... }, set: function(value) { ... }
+})`), an object with `get`, `set` and `owner` fields, any of the previously
 mentioned objects and a context with this to bind to. Overall the interface
 would be simpler if you could only pass in a `get` and `set` function and leave
 the function binding to the programmer.
