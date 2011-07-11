@@ -88,13 +88,11 @@ function subscribable(that, o) {
   };
 
   /* update the setter to notify after setting the value */
-  that.set = _.wrap(that.set || function() { throw "Not settable"; },
-    function(orig, value) {
-      var result = orig(value);
-      that.notify(result);
-      return result;
-    }
-    );
+  that.set = _.wrap(that.set, function(orig, value) {
+    var result = orig(value);
+    that.notify(result);
+    return result;
+  });
 
   that.types['subscribable'] = true;
   return that;
