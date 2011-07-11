@@ -60,9 +60,9 @@ function container(value) {
     function(newvalue) {
       return my.value = newvalue;
     }
-    );
+  );
 
-  that.types['container'] = true;;
+  that.types['container'] = true;
   return that;
 }
 
@@ -189,6 +189,9 @@ function protectable(that) {
 function dependent(that) {
   if (that.types['dependable']) {
     throw "Cannot make a dependent out of a dependable, switch them around";
+  }
+  if (!that.types['subscribable']) {
+    throw "dependent is assumed to be subscribable";
   }
   /* that needs to be subscribable */
   var my = {};
