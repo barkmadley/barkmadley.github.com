@@ -31,7 +31,7 @@ function base(get, set) {
   that.get = get || function() { throw "unsettable"; };
   that.set = set || function() { throw "ungettable"; };
 
-  /* this is for checking mixin type dependencies */
+  /* this is for checking decorator type dependencies */
   that.types = {};
   return that;
 }
@@ -156,7 +156,7 @@ function disposable(callback, list) {
   that.disposed = false;
   that.dispose = function() {
     that.disposed = true;
-    var index = \_.indexOf(my.managerList, that);
+    var index = _.indexOf(my.managerList, that);
     if (index >= 0) {
       my.managerList.splice(index, 1);
     }
@@ -171,7 +171,7 @@ itself from the list of callbacks that is its manager (hopefully severing any
 links to it such that it can be garbage collected). At the same time it will set
 its disposed property to be true, which should be a good indication that calling
 the function is unadvised. This disposable callback structure is primarily used
-in the subscribable mixin function, but it might be useful elsewhere as well.
+in the subscribable <strike>mixin</strike> decorator function, but it might be useful elsewhere as well.
 
 <div class="clearfix"></div>
 
@@ -218,10 +218,10 @@ unnecessarily).
 ### Being Dependable
 
 {% highlight javascript %}
-/* a wrapping mixin that will cause a call to get to make the parent depend on
+/* a decorator that will cause a call to get to make the parent depend on
    this object */
 function dependable(that) {
-  that.get = \_.wrap(that.get, function(orig) {
+  that.get = _.wrap(that.get, function(orig) {
     var result = orig();
     dependOn(that);
     return result;
@@ -337,7 +337,7 @@ function observable(value) {
 {% endhighlight %}
 
 This part almost seems anti climactic. Because I have already defined all the
-complex behaviour in constructors and mixin constructors, an observable is
+complex behaviour in constructors and <strike>mixin constructors</strike> decorators, an observable is
 really just a convenience. As the comment says, and the code reflects, an
 `observable` is a dependable and subscribable container that initially holds the
 given value.
@@ -395,9 +395,13 @@ calling the `get` function.
 ### Finally
 
 I am sure that there are more improvements and refactorings that could make the
-code clearer, especially with the dependent mixin (which is by far the most
+code clearer, especially with the `dependent` <strike>mixin</strike> decorator (which is by far the most
 complex). For now I am publishing this with no intent to replace the code in
 [knockout][], but as inspiration for the future of the library.
 
 [knockout]: http://knockoutjs.com/
 
+##### Updated 2011-07-15
+
+I changed the terminology from `mixin` to `decorator` since that more exactly
+describes what is happening.
