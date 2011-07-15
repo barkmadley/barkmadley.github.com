@@ -279,8 +279,10 @@ function dirtiable(that) {
 </dd>
 </dl>
 
-In the next post I will give the full working code, annotated with explanatory
-comments. Also I don't mean to pick on Ryan so much in this blog post, but his
-are some of the best examples of building useful reusable components to
-complement the knockoutjs library.
+In the [next post][] I will give the full working code, annotated with
+explanatory comments. Also I don't mean to pick on Ryan so much in this blog
+post, but his are some of the best examples of building useful reusable
+components to complement the knockoutjs library.
+
+[next post]: {% if site.safe %}http://barkmadley.com{% endif %}/2011/07/13/annotated-extensible-observables.html
 
