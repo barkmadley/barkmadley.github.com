@@ -59,6 +59,10 @@ px      68    160    252    344    436    528    620    712    804    896    */
   -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
 }
 
+.FlattrButton {
+  float: right;
+}
+
 /*  Extended Layout: 1180px
  *  Gutters: 24px;
  *  Outer margins: 50px;
