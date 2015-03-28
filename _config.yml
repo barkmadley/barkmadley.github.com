@@ -11,7 +11,7 @@ baseurl:     ""
 url:         "http://barkmadley.com"
 
 # Google analytics
-google_analytics:
+google_analytics:   UA-9071772-3
 
 # Optional features
 animated:           false
