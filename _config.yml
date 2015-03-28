@@ -19,14 +19,14 @@ show_related_posts: false
 show_post_footers:  false
 
 # Social icons
-show_social_icons: false
+show_social_icons: true
 github_username:   barkmadley
 twitter_username:  barrkmadley
 google_plus_id:
 linkedin_username:
 bitcoin_url:
 paypal_url:
-flattr_button:
+flattr_button:     <script id='fbl7vnj'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=barkmadley&button=compact&url='+encodeURIComponent(document.URL);f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbl7vnj');</script>
 
 # Build settings
 markdown:     kramdown
