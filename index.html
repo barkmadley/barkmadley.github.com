@@ -1,92 +1,20 @@
 ---
-layout: main
-title: barkmadley
-feed: /atom.xml
-scripts:
-- /js/libs/jquery.tmpl.js
-- /js/libs/knockout-1.2.1.debug.js
-- /js/libs/knockout.mapping-1.0.debug.js
-description: |
-  A blog about programming, philosophy and managing complexity of software
-  development. I write to solidify my own knowledge, particularly with regards
-  to javascript, haskell and web development.
+layout: default
 ---
 
-<article>
+<div class="home">
 
-  <header>
-    <h2>five latest posts</h2>
-  </header>
-  <ul class="posts">
-    {% for post in site.posts limit:5 offset:0 %}
-      <li><span>{{ post.date | date_to_string }}</span> &nbsp;<a href="{{ post.url }}">{{ post.title }}</a></li>
+  <div class="posts">
+    {% for post in paginator.posts %}
+      <div class="post">
+        <a href="{{ post.url | prepend: site.baseurl }}" class="post-link">
+          <p class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</p>
+          <h3 class="h2 post-title">{{ post.title }}</h3>
+          <p class="post-summary">{{ post.summary }}</p>
+        </a>
+      </div>
     {% endfor %}
-  </ul>
-  <header>
-    <h2>other random posts</h2>
-  </header>
-  <ul class="posts"
-    data-bind="template: { name: 'postLink', foreach: random_posts }"></ul>
-<script id="postLink" type="text/html">
-  <li><span>${ date }</span> &nbsp;<a href="${ url }">${ title }</a></li>
-</script>
-<script>
-function random_pick(array, number) {
-  var num = array.length;
-  var random_indices = [];
-  function add_index(index) {
-    if (index >= num) {
-      index = 0;
-    }
-    if (ko.utils.arrayIndexOf(random_indices, index) == -1) {
-      random_indices.push(index);
-      return;
-    }
-    add_index(index+1);
-  }
-  if (number >= num) {
-    random_indices = ko.utils.range(0, num - 1);
-  } else {
-    for (var i = 0; i < number; i++) {
-      var ran_number = Math.floor(Math.random()*num);
-      add_index(ran_number);
-    }
-  }
-  random_indices.sort();
-  return ko.utils.arrayMap(random_indices, function (index){
-    return array[index];
-  });
-}
+  </div>
 
-var page_init = function () {
-  var viewModel = {
-    posts: [{% for post in site.posts offset:5 %}
-    {
-      date: "{{ post.date | date_to_string }}",
-      url: "{{ post.url }}",
-      title: "{{ post.title }}"
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}]
-  };
-  viewModel.random_posts = ko.dependentObservable(function () {
-    return random_pick(this.posts, 5);
-  }, viewModel);
-  ko.applyBindings(viewModel);
-};
-</script>
-  {% unless site.safe %}
-  <header>
-    <h2>work in progress</h2>
-  </header>
-  <ul class="posts">
-  {% for pag in site.pages %}
-    {% if pag.url contains '/wip/' %}
-    <li>
-      <a href="{{ pag.url }}">{{ pag.title }}</a>
-    </li>
-    {% endif %}
-  {% endfor %}
-  </ul>
-  {% endunless %}
-
-</article>
+  {% include pagination.html %}
+</div>

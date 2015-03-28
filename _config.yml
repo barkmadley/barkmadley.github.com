@@ -1,7 +1,36 @@
-# overwritten, use as flag to say when running on github.
-safe: false
-future: true
-markdown: rdiscount
-pygments: true
-exclude: build
-version: 14
+# Site settings
+title:       barkmadley
+email:       barkmadley@gmail.com
+author:      Mark Bradley
+description: |
+  A blog about programming, philosophy and managing complexity of software
+  development. I write to solidify my own knowledge, particularly with regards
+  to javascript, haskell and web development."
+
+baseurl:     ""
+url:         "http://barkmadley.com"
+
+# Google analytics
+google_analytics:
+
+# Optional features
+animated:           false
+show_related_posts: false
+show_post_footers:  false
+
+# Social icons
+show_social_icons: false
+github_username:   barkmadley
+twitter_username:  barrkmadley
+google_plus_id:
+linkedin_username:
+bitcoin_url:
+paypal_url:
+flattr_button:
+
+# Build settings
+markdown:     kramdown
+permalink:    pretty
+paginate:     3
+sass:
+  compressed: true
