@@ -12,7 +12,7 @@ description: |
 As promised in the [last post][], I am providing the extensible observables code
 that I described.
 
-[last post]: {% if site.safe %}http://barkmadley.com{% endif %}/2011/07/11/extending-knockout-js.html
+[last post]: /2011/07/11/extending-knockout-js/
 
 ### The base
 

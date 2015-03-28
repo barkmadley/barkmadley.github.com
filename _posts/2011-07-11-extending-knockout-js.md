@@ -74,11 +74,8 @@ provide additional functionality based around reading and writing an observable.
 
 Some examples of what I am talking about.
 
-<dl>
-<dt class="bigger">Pausable</dt>
-<dd>
+###Pausable
 
-<div class="left half">
 Compare this javascript from <a href="http://www.knockmeout.net/2011/04/pausing-notifications-in-knockoutjs.html">Ryans
 blog</a>:
 
@@ -113,8 +110,7 @@ ko.pauseableDependentObservable = function(evaluatorFunction, evaluatorFunctionT
 };
 
 {% endhighlight %}
-</div>
-<div class="right half">
+
 To the equivalent mixin constructor:
 {% highlight javascript %}
 function pausable(that) {
@@ -149,21 +145,13 @@ function pausable(that) {
   return that;
 }
 {% endhighlight %}
-</div>
 
-<div class="clearfix"></div>
-
-<p>
 Even though my code is slightly longer, we can see that not only is my version of pausable cleaner and more focused, it
 is also able to wrap any observable, observableArray or dependentObservable and
 make it pausable.
-</p>
 
-</dd>
-<dt class="bigger">Protectable</dt>
-<dd>
+###Protectable
 
-<div class="left half">
 Compare this javascript from <a href="http://www.knockmeout.net/2011/03/guard-your-model-accept-or-cancel-edits.html">Ryans
 blog</a>:
 {% highlight javascript %}
@@ -201,8 +189,7 @@ ko.protectedObservable = function(initialValue) {
     return result;
 };
 {% endhighlight %}
-</div>
-<div class="right half">
+
 To the equivalent mixin constructor:
 {% highlight javascript %}
 function protectable(that) {
@@ -231,25 +218,16 @@ function protectable(that) {
   return that;
 }
 {% endhighlight %}
-</div>
 
-<div class="clearfix"></div>
-
-<p>
 In this case it is definitely clear that having an extensivle observable object
 is a win for readability and understandability. Especially since we don't need
 to explicitly store the original observable as a seperate thing, requiring us to
 redundantly redefine a read function since we don't need to overwrite it.
-</p>
 
-</dd>
-<dt class="bigger">Diffable</dt>
-<dd>
+###Diffable
 
-<p>
 Ryan didn't create a reusable single observable dirty flag, but I thought I
 might see how it might be implemented anyway.
-</p>
 
 {% highlight javascript %}
 function dirtiable(that) {
@@ -276,13 +254,10 @@ function dirtiable(that) {
 {% endhighlight %}
 
 
-</dd>
-</dl>
-
 In the [next post][] I will give the full working code, annotated with
 explanatory comments. Also I don't mean to pick on Ryan so much in this blog
 post, but his are some of the best examples of building useful reusable
 components to complement the knockoutjs library.
 
-[next post]: {% if site.safe %}http://barkmadley.com{% endif %}/2011/07/13/annotated-extensible-observables.html
+[next post]: /2011/07/13/annotated-extensible-observables/
 

@@ -284,14 +284,11 @@ remove callback, which accesses the tasks array (which is the parent of each tas
 according to the mapping plugin). It will remove the current task based on it's
 id using a mapping plugin extension for simplicity.
 
-I am very happy with how this turned out and you can [try it][] for yourself,
+I am very happy with how this turned out and you can try it for yourself,
 and view the [source][]. One additional consequence of storing the entire
 viewModel in local storage is that it also stores the taskName and id
 properties, meaning that the textbox will be filled in with whatever state you
 left it in when you reload the page.
 
-[try it]: http://barkmadley.com/things/todos-obtrusive.html
-[source]: https://github.com/barkmadley/barkmadley.github.com/blob/master/things/todos-obtrusive.html
-
-<div class="clearfix"></div>
+[source]: https://github.com/barkmadley/barkmadley.github.com/blob/74cc50d6cc0cf175322464e1a53e0ccf766b8126/things/todos-obtrusive.html
 

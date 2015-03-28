@@ -79,7 +79,7 @@ If we are finding this problem in the context of a list of rendered templates
 (using the foreach template binding parameter), then often it is best to have a
 way to represent the current editing item, and choosing the appropriate template
 based on that observable. Ryan has a great write up about this template switching
-[technique][template switchingediting].
+[technique][template switching].
 
 [template switching]: http://www.knockmeout.net/2011/03/quick-tip-dynamically-changing.html
 
