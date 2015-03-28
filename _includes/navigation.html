@@ -1,4 +1,8 @@
-<a href="http://twitter.com/barrkmadley/">twitter</a>
-<a href="http://github.com/barkmadley/">github</a>
+{% if site.twitter_username %}
+<a href="http://twitter.com/{{site.twitter_username}}/">twitter</a>
+{% endif %}
+{% if site.github_username %}
+<a href="http://github.com/{{site.github_username}}/">github</a>
+{% endif %}
 <a href="{{ site.baseurl }}/about/">about</a>
 <a href="{{ site.baseurl }}/contact/">contact</a>
