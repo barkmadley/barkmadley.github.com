@@ -5,7 +5,7 @@ author:      Mark Bradley
 description: |
   A blog about programming, philosophy and managing complexity of software
   development. I write to solidify my own knowledge, particularly with regards
-  to javascript, haskell and web development."
+  to javascript, haskell and web development.
 
 baseurl:     ""
 url:         "http://barkmadley.com"
