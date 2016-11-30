@@ -31,6 +31,8 @@ flattr_button:     <script id='fbl7vnj'>(function(i){var f,s=document.getElement
 # Build settings
 markdown:     kramdown
 permalink:    pretty
+gems:
+  - jekyll-paginate
 paginate:     3
 sass:
   compressed: true
